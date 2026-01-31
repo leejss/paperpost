@@ -113,10 +113,7 @@ export default function EditorPage() {
 		<div className="min-h-screen bg-bg-subtle">
 			<div className="mx-auto max-w-4xl px-4 py-8">
 				<header className="mb-8 flex items-start justify-between">
-					<div>
-						<h1 className="text-2xl font-bold text-fg-default">Markdown Share</h1>
-						<p className="mt-1 text-sm text-fg-muted">마크다운을 작성하고 공유 링크를 생성하세요</p>
-					</div>
+					<h1 className="text-2xl font-bold text-fg-default">Paperpost</h1>
 					<ThemeToggle />
 				</header>
 

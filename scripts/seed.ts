@@ -74,7 +74,6 @@ async function seed() {
 		.values({
 			id: docId,
 			r2Key,
-			title: "샘플 문서",
 			visibility: "unlisted",
 			passwordHash: null,
 			expiresAt,

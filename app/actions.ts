@@ -1,14 +1,8 @@
 "use server"
 
 import { generateOwnerToken, hashOwnerToken, verifyOwnerToken } from "@/lib/auth/owner-token"
-import {
-	createDocument,
-	getDocumentById,
-	updateDocumentStatus,
-	updateDocumentTitle,
-} from "@/lib/db/queries"
-import { extractTitle } from "@/lib/markdown/renderer"
-import { deleteObject, getMarkdownFromR2, headObject } from "@/lib/r2/operations"
+import { createDocument, getDocumentById, updateDocumentStatus } from "@/lib/db/queries"
+import { deleteObject, headObject } from "@/lib/r2/operations"
 import { createPresignedPutUrl, getR2Key } from "@/lib/r2/presign"
 import { type ExpiryOption, getExpiresAt } from "@/lib/utils/constants"
 import { generateDocId } from "@/lib/utils/id"
@@ -37,7 +31,6 @@ export async function createDocAction(
 		await createDocument({
 			id: docId,
 			r2Key,
-			title: null,
 			visibility: validated.visibility,
 			passwordHash: null,
 			expiresAt,
@@ -47,7 +40,6 @@ export async function createDocAction(
 		})
 
 		const putUrl = await createPresignedPutUrl(r2Key)
-
 		const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
 
 		return {
@@ -87,17 +79,6 @@ export async function confirmUploadAction(
 		const exists = await headObject(doc.r2Key)
 		if (!exists) {
 			return { success: false, error: "업로드된 파일을 찾을 수 없습니다" }
-		}
-
-		// 제목 추출
-		try {
-			const markdown = await getMarkdownFromR2(doc.r2Key)
-			const title = extractTitle(markdown)
-			if (title) {
-				await updateDocumentTitle(id, title)
-			}
-		} catch {
-			// 제목 추출 실패해도 계속 진행
 		}
 
 		await updateDocumentStatus(id, "active")

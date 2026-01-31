@@ -25,13 +25,3 @@ export async function updateDocumentStatus(
 
 	return result[0] ?? null
 }
-
-export async function updateDocumentTitle(id: string, title: string): Promise<Document | null> {
-	const result = await db
-		.update(documents)
-		.set({ title, updatedAt: new Date() })
-		.where(eq(documents.id, id))
-		.returning()
-
-	return result[0] ?? null
-}

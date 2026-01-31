@@ -20,8 +20,3 @@ export async function renderMarkdown(markdown: string): Promise<string> {
 
 	return String(result)
 }
-
-export function extractTitle(markdown: string): string | null {
-	const match = markdown.match(/^#\s+(.+)$/m)
-	return match ? match[1].trim() : null
-}

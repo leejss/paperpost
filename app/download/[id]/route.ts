@@ -21,9 +21,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 		}
 
 		const markdown = await getMarkdownFromR2(doc.r2Key)
-		const filename = doc.title
-			? `${doc.title.replace(/[^a-zA-Z0-9가-힣\s-]/g, "").slice(0, 50)}.md`
-			: `${id}.md`
+		const filename = `${id}.md`
 
 		return new NextResponse(markdown, {
 			headers: {

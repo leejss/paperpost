@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: DocumentPageProps) {
 	}
 
 	return {
-		title: doc.title ? `${doc.title} - Markdown Share` : "Markdown Share",
+		title: "Markdown Share",
 		description: "Markdown Share로 공유된 문서입니다.",
 	}
 }

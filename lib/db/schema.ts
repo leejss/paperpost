@@ -12,7 +12,6 @@ export const visibilityEnum = pgEnum("visibility", ["public", "unlisted", "passw
 export const documents = pgTable("documents", {
 	id: text("id").primaryKey(),
 	r2Key: text("r2_key").notNull(),
-	title: text("title"),
 	visibility: visibilityEnum("visibility").default("unlisted").notNull(),
 	passwordHash: text("password_hash"),
 	expiresAt: timestamp("expires_at", { withTimezone: true }),
