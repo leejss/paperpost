@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MarkdownEditor } from "@/components/editor/markdown-editor";
 import { ShareDialog } from "@/components/share/share-dialog";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { type ExpiryOption, MAX_FILE_SIZE_BYTES } from "@/lib/utils/constants";
 import type { CreateDocResult } from "@/types/document";
@@ -83,11 +84,16 @@ export default function EditorPage() {
   return (
     <div className="min-h-screen bg-bg-subtle">
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <header className="mb-8">
-          <h1 className="text-2xl font-bold text-fg-default">Markdown Share</h1>
-          <p className="mt-1 text-sm text-fg-muted">
-            마크다운을 작성하고 공유 링크를 생성하세요
-          </p>
+        <header className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-fg-default">
+              Markdown Share
+            </h1>
+            <p className="mt-1 text-sm text-fg-muted">
+              마크다운을 작성하고 공유 링크를 생성하세요
+            </p>
+          </div>
+          <ThemeToggle />
         </header>
 
         <main className="space-y-4">

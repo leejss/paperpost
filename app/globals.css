@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ============================================
+   DARK MODE CONFIGURATION
+   ============================================ */
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================
    SEMANTIC COLOR TOKENS
@@ -56,58 +63,56 @@
 	--ring-offset: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		/* Background Colors */
-		--bg-default: #09090b;
-		--bg-subtle: #18181b;
-		--bg-muted: #27272a;
-		--bg-emphasis: #3f3f46;
-		--bg-inverse: #fafafa;
+.dark {
+	/* Background Colors */
+	--bg-default: #09090b;
+	--bg-subtle: #18181b;
+	--bg-muted: #27272a;
+	--bg-emphasis: #3f3f46;
+	--bg-inverse: #fafafa;
 
-		/* Foreground Colors */
-		--fg-default: #fafafa;
-		--fg-subtle: #a1a1aa;
-		--fg-muted: #71717a;
-		--fg-emphasis: #e4e4e7;
-		--fg-inverse: #18181b;
-		--fg-disabled: #52525b;
+	/* Foreground Colors */
+	--fg-default: #fafafa;
+	--fg-subtle: #a1a1aa;
+	--fg-muted: #71717a;
+	--fg-emphasis: #e4e4e7;
+	--fg-inverse: #18181b;
+	--fg-disabled: #52525b;
 
-		/* Border Colors */
-		--border-default: #27272a;
-		--border-subtle: #18181b;
-		--border-emphasis: #3f3f46;
-		--border-inverse: #e4e4e7;
+	/* Border Colors */
+	--border-default: #27272a;
+	--border-subtle: #18181b;
+	--border-emphasis: #3f3f46;
+	--border-inverse: #e4e4e7;
 
-		/* Primary Colors (Brand) */
-		--primary-default: #fafafa;
-		--primary-hover: #e4e4e7;
-		--primary-active: #d4d4d8;
-		--primary-fg: #18181b;
+	/* Primary Colors (Brand) */
+	--primary-default: #fafafa;
+	--primary-hover: #e4e4e7;
+	--primary-active: #d4d4d8;
+	--primary-fg: #18181b;
 
-		/* Secondary Colors */
-		--secondary-default: #27272a;
-		--secondary-hover: #3f3f46;
-		--secondary-active: #52525b;
-		--secondary-fg: #fafafa;
+	/* Secondary Colors */
+	--secondary-default: #27272a;
+	--secondary-hover: #3f3f46;
+	--secondary-active: #52525b;
+	--secondary-fg: #fafafa;
 
-		/* Status Colors */
-		--error-bg: #450a0a;
-		--error-fg: #f87171;
-		--error-border: #7f1d1d;
+	/* Status Colors */
+	--error-bg: #450a0a;
+	--error-fg: #f87171;
+	--error-border: #7f1d1d;
 
-		--success-bg: #052e16;
-		--success-fg: #4ade80;
-		--success-border: #14532d;
+	--success-bg: #052e16;
+	--success-fg: #4ade80;
+	--success-border: #14532d;
 
-		--warning-bg: #451a03;
-		--warning-fg: #fbbf24;
-		--warning-border: #78350f;
+	--warning-bg: #451a03;
+	--warning-fg: #fbbf24;
+	--warning-border: #78350f;
 
-		/* Interactive States */
-		--ring-default: #fafafa;
-		--ring-offset: #09090b;
-	}
+	/* Interactive States */
+	--ring-default: #fafafa;
+	--ring-offset: #09090b;
 }
 
 /* ============================================
@@ -180,4 +185,56 @@ body {
 	background-color: var(--bg-default);
 	color: var(--fg-default);
 	font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ============================================
+   MDXEDITOR THEME OVERRIDES
+   ============================================ */
+
+.mdxeditor {
+	/* Base Colors - mapped to project design system */
+	--baseBase: var(--bg-default);
+	--baseBgSubtle: var(--bg-subtle);
+	--baseBg: var(--bg-default);
+	--baseBgHover: var(--bg-muted);
+	--baseBgActive: var(--bg-emphasis);
+	--baseLine: var(--border-default);
+	--baseBorder: var(--border-default);
+	--baseBorderHover: var(--border-emphasis);
+	--baseSolid: var(--fg-muted);
+	--baseSolidHover: var(--fg-subtle);
+	--baseText: var(--fg-default);
+	--baseTextContrast: var(--fg-inverse);
+
+	/* Accent Colors - mapped to primary brand colors */
+	--accentBase: var(--primary-default);
+	--accentBgSubtle: var(--primary-hover);
+	--accentBg: var(--primary-default);
+	--accentBgHover: var(--primary-hover);
+	--accentBgActive: var(--primary-active);
+	--accentLine: var(--primary-hover);
+	--accentBorder: var(--primary-default);
+	--accentBorderHover: var(--primary-hover);
+	--accentSolid: var(--primary-default);
+	--accentSolidHover: var(--primary-hover);
+	--accentText: var(--primary-fg);
+	--accentTextContrast: var(--primary-fg);
+
+	/* Admonition Colors */
+	--admonitionTipBg: var(--success-bg);
+	--admonitionTipBorder: var(--success-fg);
+	--admonitionInfoBg: var(--bg-subtle);
+	--admonitionInfoBorder: var(--fg-muted);
+	--admonitionCautionBg: var(--warning-bg);
+	--admonitionCautionBorder: var(--warning-fg);
+	--admonitionDangerBg: var(--error-bg);
+	--admonitionDangerBorder: var(--error-fg);
+	--admonitionNoteBg: var(--bg-subtle);
+	--admonitionNoteBorder: var(--border-emphasis);
+
+	/* Font */
+	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+	color: var(--baseText);
+	background: var(--baseBg);
 }
