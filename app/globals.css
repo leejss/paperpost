@@ -12,107 +12,107 @@
    ============================================ */
 
 :root {
-  /* Background Colors */
-  --bg-default: #ffffff;
-  --bg-subtle: #fafafa;
-  --bg-muted: #f4f4f5;
-  --bg-emphasis: #e4e4e7;
-  --bg-inverse: #18181b;
+	/* Background Colors */
+	--bg-default: #ffffff;
+	--bg-subtle: #fafafa;
+	--bg-muted: #f4f4f5;
+	--bg-emphasis: #e4e4e7;
+	--bg-inverse: #18181b;
 
-  /* Foreground Colors */
-  --fg-default: #18181b;
-  --fg-subtle: #52525b;
-  --fg-muted: #71717a;
-  --fg-emphasis: #27272a;
-  --fg-inverse: #fafafa;
-  --fg-disabled: #a1a1aa;
+	/* Foreground Colors */
+	--fg-default: #18181b;
+	--fg-subtle: #52525b;
+	--fg-muted: #71717a;
+	--fg-emphasis: #27272a;
+	--fg-inverse: #fafafa;
+	--fg-disabled: #a1a1aa;
 
-  /* Border Colors */
-  --border-default: #e4e4e7;
-  --border-subtle: #f4f4f5;
-  --border-emphasis: #d4d4d8;
-  --border-inverse: #27272a;
+	/* Border Colors */
+	--border-default: #e4e4e7;
+	--border-subtle: #f4f4f5;
+	--border-emphasis: #d4d4d8;
+	--border-inverse: #27272a;
 
-  /* Primary Colors (Brand) */
-  --primary-default: #18181b;
-  --primary-hover: #27272a;
-  --primary-active: #3f3f46;
-  --primary-fg: #ffffff;
+	/* Primary Colors (Brand) */
+	--primary-default: #18181b;
+	--primary-hover: #27272a;
+	--primary-active: #3f3f46;
+	--primary-fg: #ffffff;
 
-  /* Secondary Colors */
-  --secondary-default: #f4f4f5;
-  --secondary-hover: #e4e4e7;
-  --secondary-active: #d4d4d8;
-  --secondary-fg: #18181b;
+	/* Secondary Colors */
+	--secondary-default: #f4f4f5;
+	--secondary-hover: #e4e4e7;
+	--secondary-active: #d4d4d8;
+	--secondary-fg: #18181b;
 
-  /* Status Colors */
-  --error-bg: #fef2f2;
-  --error-fg: #dc2626;
-  --error-border: #fecaca;
+	/* Status Colors */
+	--error-bg: #fef2f2;
+	--error-fg: #dc2626;
+	--error-border: #fecaca;
 
-  --success-bg: #f0fdf4;
-  --success-fg: #16a34a;
-  --success-border: #bbf7d0;
+	--success-bg: #f0fdf4;
+	--success-fg: #16a34a;
+	--success-border: #bbf7d0;
 
-  --warning-bg: #fffbeb;
-  --warning-fg: #d97706;
-  --warning-border: #fde68a;
+	--warning-bg: #fffbeb;
+	--warning-fg: #d97706;
+	--warning-border: #fde68a;
 
-  /* Interactive States */
-  --ring-default: #18181b;
-  --ring-offset: #ffffff;
+	/* Interactive States */
+	--ring-default: #18181b;
+	--ring-offset: #ffffff;
 }
 
 .dark {
-  /* Background Colors */
-  --bg-default: #09090b;
-  --bg-subtle: #18181b;
-  --bg-muted: #27272a;
-  --bg-emphasis: #3f3f46;
-  --bg-inverse: #fafafa;
+	/* Background Colors */
+	--bg-default: #09090b;
+	--bg-subtle: #18181b;
+	--bg-muted: #27272a;
+	--bg-emphasis: #3f3f46;
+	--bg-inverse: #fafafa;
 
-  /* Foreground Colors */
-  --fg-default: #fafafa;
-  --fg-subtle: #a1a1aa;
-  --fg-muted: #71717a;
-  --fg-emphasis: #e4e4e7;
-  --fg-inverse: #18181b;
-  --fg-disabled: #52525b;
+	/* Foreground Colors */
+	--fg-default: #fafafa;
+	--fg-subtle: #a1a1aa;
+	--fg-muted: #71717a;
+	--fg-emphasis: #e4e4e7;
+	--fg-inverse: #18181b;
+	--fg-disabled: #52525b;
 
-  /* Border Colors */
-  --border-default: #27272a;
-  --border-subtle: #18181b;
-  --border-emphasis: #3f3f46;
-  --border-inverse: #e4e4e7;
+	/* Border Colors */
+	--border-default: #27272a;
+	--border-subtle: #18181b;
+	--border-emphasis: #3f3f46;
+	--border-inverse: #e4e4e7;
 
-  /* Primary Colors (Brand) */
-  --primary-default: #fafafa;
-  --primary-hover: #e4e4e7;
-  --primary-active: #d4d4d8;
-  --primary-fg: #18181b;
+	/* Primary Colors (Brand) */
+	--primary-default: #fafafa;
+	--primary-hover: #e4e4e7;
+	--primary-active: #d4d4d8;
+	--primary-fg: #18181b;
 
-  /* Secondary Colors */
-  --secondary-default: #27272a;
-  --secondary-hover: #3f3f46;
-  --secondary-active: #52525b;
-  --secondary-fg: #fafafa;
+	/* Secondary Colors */
+	--secondary-default: #27272a;
+	--secondary-hover: #3f3f46;
+	--secondary-active: #52525b;
+	--secondary-fg: #fafafa;
 
-  /* Status Colors */
-  --error-bg: #450a0a;
-  --error-fg: #f87171;
-  --error-border: #7f1d1d;
+	/* Status Colors */
+	--error-bg: #450a0a;
+	--error-fg: #f87171;
+	--error-border: #7f1d1d;
 
-  --success-bg: #052e16;
-  --success-fg: #4ade80;
-  --success-border: #14532d;
+	--success-bg: #052e16;
+	--success-fg: #4ade80;
+	--success-border: #14532d;
 
-  --warning-bg: #451a03;
-  --warning-fg: #fbbf24;
-  --warning-border: #78350f;
+	--warning-bg: #451a03;
+	--warning-fg: #fbbf24;
+	--warning-border: #78350f;
 
-  /* Interactive States */
-  --ring-default: #fafafa;
-  --ring-offset: #09090b;
+	/* Interactive States */
+	--ring-default: #fafafa;
+	--ring-offset: #09090b;
 }
 
 /* ============================================
@@ -120,61 +120,61 @@
    ============================================ */
 
 @theme inline {
-  /* Typography */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	/* Typography */
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
 
-  /* Background Colors */
-  --color-bg-default: var(--bg-default);
-  --color-bg-subtle: var(--bg-subtle);
-  --color-bg-muted: var(--bg-muted);
-  --color-bg-emphasis: var(--bg-emphasis);
-  --color-bg-inverse: var(--bg-inverse);
+	/* Background Colors */
+	--color-bg-default: var(--bg-default);
+	--color-bg-subtle: var(--bg-subtle);
+	--color-bg-muted: var(--bg-muted);
+	--color-bg-emphasis: var(--bg-emphasis);
+	--color-bg-inverse: var(--bg-inverse);
 
-  /* Foreground Colors */
-  --color-fg-default: var(--fg-default);
-  --color-fg-subtle: var(--fg-subtle);
-  --color-fg-muted: var(--fg-muted);
-  --color-fg-emphasis: var(--fg-emphasis);
-  --color-fg-inverse: var(--fg-inverse);
-  --color-fg-disabled: var(--fg-disabled);
+	/* Foreground Colors */
+	--color-fg-default: var(--fg-default);
+	--color-fg-subtle: var(--fg-subtle);
+	--color-fg-muted: var(--fg-muted);
+	--color-fg-emphasis: var(--fg-emphasis);
+	--color-fg-inverse: var(--fg-inverse);
+	--color-fg-disabled: var(--fg-disabled);
 
-  /* Border Colors */
-  --color-border-default: var(--border-default);
-  --color-border-subtle: var(--border-subtle);
-  --color-border-emphasis: var(--border-emphasis);
-  --color-border-inverse: var(--border-inverse);
+	/* Border Colors */
+	--color-border-default: var(--border-default);
+	--color-border-subtle: var(--border-subtle);
+	--color-border-emphasis: var(--border-emphasis);
+	--color-border-inverse: var(--border-inverse);
 
-  /* Primary (Brand) Colors */
-  --color-primary: var(--primary-default);
-  --color-primary-hover: var(--primary-hover);
-  --color-primary-active: var(--primary-active);
-  --color-primary-fg: var(--primary-fg);
+	/* Primary (Brand) Colors */
+	--color-primary: var(--primary-default);
+	--color-primary-hover: var(--primary-hover);
+	--color-primary-active: var(--primary-active);
+	--color-primary-fg: var(--primary-fg);
 
-  /* Secondary Colors */
-  --color-secondary: var(--secondary-default);
-  --color-secondary-hover: var(--secondary-hover);
-  --color-secondary-active: var(--secondary-active);
-  --color-secondary-fg: var(--secondary-fg);
+	/* Secondary Colors */
+	--color-secondary: var(--secondary-default);
+	--color-secondary-hover: var(--secondary-hover);
+	--color-secondary-active: var(--secondary-active);
+	--color-secondary-fg: var(--secondary-fg);
 
-  /* Status - Error */
-  --color-error-bg: var(--error-bg);
-  --color-error-fg: var(--error-fg);
-  --color-error-border: var(--error-border);
+	/* Status - Error */
+	--color-error-bg: var(--error-bg);
+	--color-error-fg: var(--error-fg);
+	--color-error-border: var(--error-border);
 
-  /* Status - Success */
-  --color-success-bg: var(--success-bg);
-  --color-success-fg: var(--success-fg);
-  --color-success-border: var(--success-border);
+	/* Status - Success */
+	--color-success-bg: var(--success-bg);
+	--color-success-fg: var(--success-fg);
+	--color-success-border: var(--success-border);
 
-  /* Status - Warning */
-  --color-warning-bg: var(--warning-bg);
-  --color-warning-fg: var(--warning-fg);
-  --color-warning-border: var(--warning-border);
+	/* Status - Warning */
+	--color-warning-bg: var(--warning-bg);
+	--color-warning-fg: var(--warning-fg);
+	--color-warning-border: var(--warning-border);
 
-  /* Ring/Focus */
-  --color-ring: var(--ring-default);
-  --color-ring-offset: var(--ring-offset);
+	/* Ring/Focus */
+	--color-ring: var(--ring-default);
+	--color-ring-offset: var(--ring-offset);
 }
 
 /* ============================================
@@ -182,331 +182,83 @@
    ============================================ */
 
 body {
-  background-color: var(--bg-default);
-  color: var(--fg-default);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+	background-color: var(--bg-default);
+	color: var(--fg-default);
+	font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ============================================
    MDXEDITOR THEME OVERRIDES
    ============================================ */
 
-/* MDX Editor - Light Mode (Default) */
+/* MDX Editor - CSS Custom Properties */
 .mdxeditor {
-  /* Base Colors - mapped to project design system */
-  --baseBase: var(--bg-default);
-  --baseBgSubtle: var(--bg-subtle);
-  --baseBg: var(--bg-default);
-  --baseBgHover: var(--bg-muted);
-  --baseBgActive: var(--bg-emphasis);
-  --baseLine: var(--border-default);
-  --baseBorder: var(--border-default);
-  --baseBorderHover: var(--border-emphasis);
-  --baseSolid: var(--fg-muted);
-  --baseSolidHover: var(--fg-subtle);
-  --baseText: var(--fg-default);
-  --baseTextContrast: var(--fg-inverse);
-
-  /* Accent Colors - mapped to primary brand colors */
-  --accentBase: var(--primary-default);
-  --accentBgSubtle: var(--primary-hover);
-  --accentBg: var(--primary-default);
-  --accentBgHover: var(--primary-hover);
-  --accentBgActive: var(--primary-active);
-  --accentLine: var(--primary-hover);
-  --accentBorder: var(--primary-default);
-  --accentBorderHover: var(--primary-hover);
-  --accentSolid: var(--primary-default);
-  --accentSolidHover: var(--primary-hover);
-  --accentText: var(--primary-fg);
-  --accentTextContrast: var(--primary-fg);
-
-  /* Admonition Colors */
-  --admonitionTipBg: var(--success-bg);
-  --admonitionTipBorder: var(--success-fg);
-  --admonitionInfoBg: var(--bg-subtle);
-  --admonitionInfoBorder: var(--fg-muted);
-  --admonitionCautionBg: var(--warning-bg);
-  --admonitionCautionBorder: var(--warning-fg);
-  --admonitionDangerBg: var(--error-bg);
-  --admonitionDangerBorder: var(--error-fg);
-  --admonitionNoteBg: var(--bg-subtle);
-  --admonitionNoteBorder: var(--border-emphasis);
-
-  /* Font */
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-
-  /* Page Background */
-  --basePageBg: var(--bg-default);
-
-  color: var(--baseText) !important;
-  background: var(--baseBg) !important;
+	--baseBase: var(--bg-default);
+	--baseBgSubtle: var(--bg-subtle);
+	--baseBg: var(--bg-default);
+	--baseBgHover: var(--bg-muted);
+	--baseBgActive: var(--bg-emphasis);
+	--baseLine: var(--border-default);
+	--baseBorder: var(--border-default);
+	--baseBorderHover: var(--border-emphasis);
+	--baseSolid: var(--fg-muted);
+	--baseSolidHover: var(--fg-subtle);
+	--baseText: var(--fg-default);
+	--baseTextContrast: var(--fg-inverse);
+	--accentBase: var(--primary-default);
+	--accentBgSubtle: var(--primary-hover);
+	--accentBg: var(--primary-default);
+	--accentBgHover: var(--primary-hover);
+	--accentBgActive: var(--primary-active);
+	--accentLine: var(--primary-hover);
+	--accentBorder: var(--primary-default);
+	--accentBorderHover: var(--primary-hover);
+	--accentSolid: var(--primary-default);
+	--accentSolidHover: var(--primary-hover);
+	--accentText: var(--primary-fg);
+	--accentTextContrast: var(--primary-fg);
+	--basePageBg: var(--bg-default);
+	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-/* MDX Editor - Dark Mode */
 .dark .mdxeditor {
-  /* Base Colors - Dark Mode */
-  --baseBase: var(--bg-default);
-  --baseBgSubtle: var(--bg-subtle);
-  --baseBg: var(--bg-default);
-  --baseBgHover: var(--bg-muted);
-  --baseBgActive: var(--bg-emphasis);
-  --baseLine: var(--border-default);
-  --baseBorder: var(--border-default);
-  --baseBorderHover: var(--border-emphasis);
-  --baseSolid: var(--fg-muted);
-  --baseSolidHover: var(--fg-subtle);
-  --baseText: var(--fg-default);
-  --baseTextContrast: white;
-
-  /* Accent Colors - Dark Mode */
-  --accentBase: var(--primary-default);
-  --accentBgSubtle: var(--primary-hover);
-  --accentBg: var(--primary-default);
-  --accentBgHover: var(--primary-hover);
-  --accentBgActive: var(--primary-active);
-  --accentLine: var(--primary-hover);
-  --accentBorder: var(--primary-default);
-  --accentBorderHover: var(--primary-hover);
-  --accentSolid: var(--primary-default);
-  --accentSolidHover: var(--primary-hover);
-  --accentText: var(--primary-fg);
-  --accentTextContrast: var(--primary-fg);
-
-  /* Admonition Colors - Dark Mode */
-  --admonitionTipBg: var(--success-bg);
-  --admonitionTipBorder: var(--success-fg);
-  --admonitionInfoBg: var(--bg-subtle);
-  --admonitionInfoBorder: var(--fg-muted);
-  --admonitionCautionBg: var(--warning-bg);
-  --admonitionCautionBorder: var(--warning-fg);
-  --admonitionDangerBg: var(--error-bg);
-  --admonitionDangerBorder: var(--error-fg);
-  --admonitionNoteBg: var(--bg-subtle);
-  --admonitionNoteBorder: var(--border-emphasis);
-
-  /* Page Background - Dark Mode */
-  --basePageBg: var(--bg-default);
-
-  color: var(--baseText) !important;
-  background: var(--baseBg) !important;
+	--baseTextContrast: white;
 }
-
-/* MDX Editor List Styles */
-.mdxeditor [class*="listitem"] {
-  list-style-type: disc;
-  margin-left: 1.5rem;
-}
-
-.mdxeditor [class*="listitem"][class*="ol"] {
-  list-style-type: decimal;
-}
-
-.mdxeditor [class*="listitem"] [class*="listitem"] {
-  list-style-type: circle;
-}
-
-.mdxeditor [class*="listitem"] [class*="listitem"] [class*="listitem"] {
-  list-style-type: square;
-}
-
-/* ============================================
-   MDXEDITOR HEADING STYLES
-   ============================================ */
-
-/* ============================================
-   MDXEDITOR CONTENT STYLES - DARK MODE FIX
-   ============================================ */
-
-/* Ensure all text content inherits proper colors in dark mode */
-.dark .mdxeditor [contenteditable="true"] {
-  color: var(--fg-default) !important;
-}
-
-.dark .mdxeditor [contenteditable="true"] * {
-  color: inherit !important;
-}
-
-/* ============================================
-   MDXEDITOR TOOLBAR STYLES
-   ============================================ */
 
 /* Toolbar container */
 .mdxeditor-toolbar {
-  background-color: var(--bg-subtle) !important;
-  border-bottom: 1px solid var(--border-default) !important;
+	background-color: var(--bg-subtle) !important;
+	border-bottom: 1px solid var(--border-default) !important;
 }
 
 .dark .mdxeditor-toolbar {
-  background-color: var(--bg-subtle) !important;
-  border-bottom-color: var(--border-default) !important;
+	background-color: var(--bg-subtle) !important;
+	border-bottom-color: var(--border-default) !important;
 }
 
 /* Toolbar buttons */
 .mdxeditor-toolbar button {
-  color: var(--fg-default) !important;
-  background-color: transparent !important;
+	color: var(--fg-default) !important;
+	background-color: transparent !important;
 }
 
 .mdxeditor-toolbar button:hover {
-  background-color: var(--bg-muted) !important;
+	background-color: var(--bg-muted) !important;
 }
 
 .mdxeditor-toolbar button:active,
 .mdxeditor-toolbar button[data-active="true"] {
-  background-color: var(--bg-emphasis) !important;
-}
-
-.dark .mdxeditor-toolbar button {
-  color: var(--fg-default) !important;
-}
-
-.dark .mdxeditor-toolbar button:hover {
-  background-color: var(--bg-muted) !important;
-}
-
-.dark .mdxeditor-toolbar button:active,
-.dark .mdxeditor-toolbar button[data-active="true"] {
-  background-color: var(--bg-emphasis) !important;
+	background-color: var(--bg-emphasis) !important;
 }
 
 /* Toolbar select/dropdown */
 .mdxeditor-toolbar select {
-  color: var(--fg-default) !important;
-  background-color: var(--bg-default) !important;
-  border-color: var(--border-default) !important;
-}
-
-.dark .mdxeditor-toolbar select {
-  color: var(--fg-default) !important;
-  background-color: var(--bg-default) !important;
-  border-color: var(--border-default) !important;
+	color: var(--fg-default) !important;
+	background-color: var(--bg-default) !important;
+	border-color: var(--border-default) !important;
 }
 
 /* Toolbar separator */
 .mdxeditor-toolbar [role="separator"] {
-  background-color: var(--border-default) !important;
-}
-
-.dark .mdxeditor-toolbar [role="separator"] {
-  background-color: var(--border-default) !important;
-}
-
-/* ============================================
-   MDXEDITOR HEADING STYLES
-   ============================================ */
-
-.mdxeditor h1 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--fg-default);
-}
-
-.mdxeditor h2 {
-  font-size: 1.875rem;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-top: 1.25rem;
-  margin-bottom: 0.875rem;
-  color: var(--fg-default);
-}
-
-.mdxeditor h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-top: 1rem;
-  margin-bottom: 0.75rem;
-  color: var(--fg-default);
-}
-
-.mdxeditor h4 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-top: 0.875rem;
-  margin-bottom: 0.625rem;
-  color: var(--fg-default);
-}
-
-.mdxeditor h5 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.5;
-  margin-top: 0.75rem;
-  margin-bottom: 0.5rem;
-  color: var(--fg-default);
-}
-
-.mdxeditor h6 {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.5;
-  margin-top: 0.625rem;
-  margin-bottom: 0.5rem;
-  color: var(--fg-default);
-}
-
-/* ============================================
-   MDXEDITOR PARAGRAPH AND TEXT STYLES
-   ============================================ */
-
-.mdxeditor p {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.mdxeditor strong {
-  font-weight: 700;
-}
-
-.mdxeditor em {
-  font-style: italic;
-}
-
-.mdxeditor code {
-  font-family: var(--font-mono);
-  background-color: var(--bg-muted);
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-}
-
-.mdxeditor pre {
-  background-color: var(--bg-muted);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  margin-bottom: 1rem;
-}
-
-.mdxeditor pre code {
-  background-color: transparent;
-  padding: 0;
-}
-
-.mdxeditor blockquote {
-  border-left: 4px solid var(--border-emphasis);
-  padding-left: 1rem;
-  margin-left: 0;
-  margin-bottom: 1rem;
-  color: var(--fg-subtle);
-}
-
-.mdxeditor a {
-  color: var(--primary-default);
-  text-decoration: underline;
-}
-
-.mdxeditor a:hover {
-  color: var(--primary-hover);
-}
-
-.mdxeditor hr {
-  border: none;
-  border-top: 1px solid var(--border-default);
-  margin: 1.5rem 0;
+	background-color: var(--border-default) !important;
 }

@@ -45,7 +45,7 @@ export function MDXEditorWrapper({ value, onChange, placeholder }: MDXEditorWrap
 				markdown={value}
 				onChange={onChange}
 				placeholder={placeholder || "마크다운을 입력하거나 붙여넣기 하세요..."}
-				contentEditableClassName="max-w-none p-4 min-h-[400px] focus:outline-none"
+				contentEditableClassName="prose prose-zinc dark:prose-invert max-w-none p-4 min-h-[400px] focus:outline-none"
 				plugins={[
 					headingsPlugin(),
 					listsPlugin(),
