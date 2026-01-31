@@ -16,7 +16,7 @@ export function ExpirySelector({ value, onChange }: ExpirySelectorProps) {
 
 	return (
 		<div className="space-y-2">
-			<label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">만료 기간</label>
+			<label className="text-sm font-medium text-fg-subtle">만료 기간</label>
 			<Select
 				value={value}
 				onChange={(e) => onChange(e.target.value as ExpiryOption)}

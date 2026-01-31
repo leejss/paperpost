@@ -42,12 +42,10 @@ export function Dialog({ open, onClose, children, title }: DialogProps) {
 		<dialog
 			ref={dialogRef}
 			onClick={handleBackdropClick}
-			className="backdrop:bg-black/50 bg-transparent p-0 max-w-lg w-full"
+			className="backdrop:bg-bg-inverse/50 bg-transparent p-0 max-w-lg w-full"
 		>
-			<div className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-xl">
-				{title && (
-					<h2 className="text-lg font-semibold mb-4 text-zinc-900 dark:text-zinc-50">{title}</h2>
-				)}
+			<div className="bg-bg-default rounded-xl p-6 shadow-xl">
+				{title && <h2 className="text-lg font-semibold mb-4 text-fg-default">{title}</h2>}
 				{children}
 			</div>
 		</dialog>
