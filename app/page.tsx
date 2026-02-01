@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { type ExpiryOption, MAX_FILE_SIZE_BYTES } from "@/lib/utils/constants"
 import type { CreateDocResult } from "@/types/document"
-import { confirmUploadAction, createDocAction } from "./actions"
+import { createAndUploadDocAction } from "./actions"
 
 type ViewMode = "edit" | "preview"
 
@@ -32,38 +32,17 @@ export default function EditorPage() {
 		setError(null)
 
 		try {
-			// 1. createDocAction 호출
-			const createResult = await createDocAction({
+			const result = await createAndUploadDocAction({
 				content,
 				expiresIn: options.expiresIn,
 				visibility: options.visibility,
 			})
 
-			if (!createResult.success) {
-				throw new Error(createResult.error)
+			if (!result.success) {
+				throw new Error(result.error)
 			}
 
-			// 2. R2에 직접 업로드
-			const uploadResponse = await fetch(createResult.data.putUrl, {
-				method: "PUT",
-				body: content,
-				headers: {
-					"Content-Type": "text/markdown",
-				},
-			})
-
-			if (!uploadResponse.ok) {
-				throw new Error("파일 업로드에 실패했습니다")
-			}
-
-			// 3. confirmUploadAction 호출
-			const confirmResult = await confirmUploadAction(createResult.data.id)
-
-			if (!confirmResult.success) {
-				throw new Error(confirmResult.error)
-			}
-
-			setShareResult(createResult.data)
+			setShareResult(result.data)
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "공유에 실패했습니다")
 		} finally {
@@ -104,6 +83,7 @@ export default function EditorPage() {
 					onShare={handleShare}
 					isLoading={isSharing}
 					result={shareResult}
+					error={error}
 				/>
 			</>
 		)
@@ -135,9 +115,6 @@ export default function EditorPage() {
 							>
 								Preview
 							</Button>
-							<Button onClick={handleOpenDialog} disabled={isEmpty || isOverLimit} size="lg">
-								Share
-							</Button>
 						</div>
 					</div>
 
@@ -150,6 +127,7 @@ export default function EditorPage() {
 					onShare={handleShare}
 					isLoading={isSharing}
 					result={shareResult}
+					error={error}
 				/>
 			</div>
 		</div>

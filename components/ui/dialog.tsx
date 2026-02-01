@@ -32,19 +32,12 @@ export function Dialog({ open, onClose, children, title }: DialogProps) {
 		return () => dialog.removeEventListener("close", handleClose)
 	}, [onClose])
 
-	const handleBackdropClick = (e: React.MouseEvent) => {
-		if (e.target === dialogRef.current) {
-			onClose()
-		}
-	}
-
 	return (
 		<dialog
 			ref={dialogRef}
-			onClick={handleBackdropClick}
-			className="backdrop:bg-bg-inverse/50 bg-transparent p-0 max-w-lg w-full"
+			className="backdrop:bg-bg-inverse/50 bg-transparent p-0 max-w-lg w-full m-auto open:flex open:flex-col open:justify-center open:items-center"
 		>
-			<div className="bg-bg-default rounded-xl p-6 shadow-xl">
+			<div className="bg-bg-default rounded-xl p-6 shadow-xl w-full">
 				{title && <h2 className="text-lg font-semibold mb-4 text-fg-default">{title}</h2>}
 				{children}
 			</div>
