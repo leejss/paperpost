@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { DocumentViewer } from "@/components/document/document-viewer"
 import {
@@ -43,7 +44,6 @@ export default async function DocumentPage({ params }: DocumentPageProps) {
 	try {
 		const markdown = await getMarkdownFromR2(doc.r2Key)
 		const html = await renderMarkdown(markdown)
-
 		return <DocumentViewer html={html} document={doc} />
 	} catch (error) {
 		console.error("Failed to render document:", error)
@@ -51,7 +51,7 @@ export default async function DocumentPage({ params }: DocumentPageProps) {
 	}
 }
 
-export async function generateMetadata({ params }: DocumentPageProps) {
+export async function generateMetadata({ params }: DocumentPageProps): Promise<Metadata> {
 	const { id } = await params
 	const doc = await getDocumentById(id)
 

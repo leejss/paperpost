@@ -4,7 +4,6 @@ import { type Document, documents, type NewDocument } from "./schema"
 
 export async function getDocumentById(id: string): Promise<Document | null> {
 	const result = await db.select().from(documents).where(eq(documents.id, id)).limit(1)
-
 	return result[0] ?? null
 }
 
