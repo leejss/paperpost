@@ -1,4 +1,5 @@
 import type { Document } from "@/lib/db/schema"
+import { DeleteDialog } from "./delete-dialog"
 
 interface DocumentViewerProps {
 	html: string
@@ -33,6 +34,7 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 						>
 							Download
 						</a>
+						<DeleteDialog documentId={document.id} />
 					</div>
 				</header>
 
