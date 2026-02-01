@@ -2,8 +2,8 @@
 
 import { generateOwnerToken, hashOwnerToken, verifyOwnerToken } from "@/lib/auth/owner-token"
 import { createDocument, getDocumentById, updateDocumentStatus } from "@/lib/db/queries"
-import { deleteObject, headObject } from "@/lib/r2/operations"
-import { createPresignedPutUrl, getR2Key } from "@/lib/r2/presign"
+import { deleteObject, headObject, uploadObject } from "@/lib/r2/operations"
+import { getR2Key } from "@/lib/r2/presign"
 import { type ExpiryOption, getExpiresAt } from "@/lib/utils/constants"
 import { generateDocId } from "@/lib/utils/id"
 import { confirmUploadSchema, createDocSchema, deleteDocSchema } from "@/lib/validations/document"
@@ -39,7 +39,6 @@ export async function createDocAction(
 			sizeBytes,
 		})
 
-		const putUrl = await createPresignedPutUrl(r2Key)
 		const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
 
 		return {
@@ -47,8 +46,6 @@ export async function createDocAction(
 			data: {
 				id: docId,
 				viewUrl: `${appUrl}/d/${docId}`,
-				putUrl,
-				r2Key,
 				ownerToken,
 			},
 		}
@@ -123,6 +120,59 @@ export async function deleteDocAction(
 		return {
 			success: false,
 			error: error instanceof Error ? error.message : "문서 삭제에 실패했습니다",
+		}
+	}
+}
+
+interface CreateAndUploadDocInput {
+	content: string
+	expiresIn: ExpiryOption
+	visibility: "public" | "unlisted"
+}
+
+export async function createAndUploadDocAction(
+	input: CreateAndUploadDocInput
+): Promise<{ success: true; data: CreateDocResult } | { success: false; error: string }> {
+	try {
+		const validated = createDocSchema.parse(input)
+
+		const docId = generateDocId()
+		const r2Key = getR2Key(docId)
+		const ownerToken = generateOwnerToken()
+		const ownerTokenHash = hashOwnerToken(ownerToken)
+		const expiresAt = getExpiresAt(validated.expiresIn)
+		const sizeBytes = new TextEncoder().encode(validated.content).length
+
+		await createDocument({
+			id: docId,
+			r2Key,
+			visibility: validated.visibility,
+			passwordHash: null,
+			expiresAt,
+			ownerTokenHash,
+			status: "pending",
+			sizeBytes,
+		})
+
+		await uploadObject(r2Key, validated.content)
+
+		await updateDocumentStatus(docId, "active")
+
+		const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+
+		return {
+			success: true,
+			data: {
+				id: docId,
+				viewUrl: `${appUrl}/d/${docId}`,
+				ownerToken,
+			},
+		}
+	} catch (error) {
+		console.error("createAndUploadDocAction error:", error)
+		return {
+			success: false,
+			error: error instanceof Error ? error.message : "문서 생성 및 업로드에 실패했습니다",
 		}
 	}
 }

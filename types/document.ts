@@ -3,8 +3,6 @@ import type { ExpiryOption } from "@/lib/utils/constants"
 export interface CreateDocResult {
 	id: string
 	viewUrl: string
-	putUrl: string
-	r2Key: string
 	ownerToken: string
 }
 
