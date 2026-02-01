@@ -10,18 +10,14 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 
 	return (
 		<div className="min-h-screen bg-bg-default">
+			<p className="text-sm text-fg-muted fixed right-4 top-4">
+				{document.expiresAt && (
+					<span className="ml-2">{document.expiresAt.toLocaleDateString("ko-KR")} 만료</span>
+				)}
+			</p>
 			<div className="mx-auto max-w-3xl px-4 py-8">
 				<header className="mb-8 flex items-center justify-between border-b border-border-default pb-4">
-					<div>
-						<p className="text-sm text-fg-muted">
-							{document.createdAt.toLocaleDateString("ko-KR")} 공유됨
-							{document.expiresAt && (
-								<span className="ml-2">
-									· {document.expiresAt.toLocaleDateString("ko-KR")} 만료
-								</span>
-							)}
-						</p>
-					</div>
+					<h1>Paperpost</h1>
 					<div className="flex gap-2">
 						<a
 							href={`${appUrl}/raw/${document.id}`}
@@ -44,12 +40,6 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 					className="prose dark:prose-invert max-w-none"
 					dangerouslySetInnerHTML={{ __html: html }}
 				/>
-
-				<footer className="mt-12 pt-4 border-t border-border-default text-center">
-					<a href={appUrl} className="text-sm text-fg-muted hover:text-fg-default">
-						Markdown Share로 새 문서 만들기
-					</a>
-				</footer>
 			</div>
 		</div>
 	)
