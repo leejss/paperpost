@@ -71,10 +71,7 @@ export function MarkdownPreview({ content, onBack, onShare }: MarkdownPreviewPro
 						<div className="text-fg-muted">로딩 중...</div>
 					</div>
 				) : (
-					<article
-						className="prose dark:prose-invert max-w-none"
-						dangerouslySetInnerHTML={{ __html: html }}
-					/>
+					<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
 				)}
 			</div>
 		</div>

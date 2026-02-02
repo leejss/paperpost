@@ -38,10 +38,7 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 					</div>
 				</header>
 
-				<article
-					className="prose dark:prose-invert max-w-none"
-					dangerouslySetInnerHTML={{ __html: html }}
-				/>
+				<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
 			</div>
 		</div>
 	)

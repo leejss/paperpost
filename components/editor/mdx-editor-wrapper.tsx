@@ -26,7 +26,6 @@ import {
 	toolbarPlugin,
 	UndoRedo,
 } from "@mdxeditor/editor"
-import { useTheme } from "next-themes"
 
 interface MDXEditorWrapperProps {
 	value: string
@@ -35,17 +34,14 @@ interface MDXEditorWrapperProps {
 }
 
 export function MDXEditorWrapper({ value, onChange, placeholder }: MDXEditorWrapperProps) {
-	const { theme } = useTheme()
-	const isDark = theme === "dark"
-
 	return (
-		<div className="w-full border border-border-default rounded-sm overflow-hidden bg-bg-default dark:bg-bg-default">
+		<div className="w-full border border-border-default rounded-sm overflow-hidden bg-bg-default">
 			<MDXEditor
-				className={`mdxeditor ${isDark ? "dark" : ""}`}
+				className="mdxeditor"
 				markdown={value}
 				onChange={onChange}
 				placeholder={placeholder || "마크다운을 입력하거나 붙여넣기 하세요..."}
-				contentEditableClassName="prose prose-zinc dark:prose-invert max-w-none p-4 min-h-[400px] focus:outline-none"
+				contentEditableClassName="prose prose-zinc max-w-none p-4 min-h-[400px] focus:outline-none"
 				plugins={[
 					headingsPlugin(),
 					listsPlugin(),

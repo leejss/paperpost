@@ -4,7 +4,6 @@ import { useState } from "react"
 import { MarkdownEditor } from "@/components/editor/markdown-editor"
 import { MarkdownPreview } from "@/components/preview/markdown-preview"
 import { ShareDialog } from "@/components/share/share-dialog"
-import { ThemeToggle } from "@/components/theme/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { type ExpiryOption, MAX_FILE_SIZE_BYTES } from "@/lib/utils/constants"
 import type { CreateDocResult } from "@/types/document"
@@ -94,7 +93,6 @@ export default function EditorPage() {
 			<div className="mx-auto max-w-4xl px-4 py-8">
 				<header className="mb-8 flex items-start justify-between">
 					<h1 className="text-2xl font-bold text-fg-default">Paperpost</h1>
-					<ThemeToggle />
 				</header>
 
 				<main className="space-y-4">
