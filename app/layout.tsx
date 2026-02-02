@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist_Mono, Host_Grotesk } from "next/font/google"
 import "./globals.css"
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+const hostGrotesk = Host_Grotesk({
+	variable: "--font-host-grotesk",
 	subsets: ["latin"],
 })
 
@@ -24,7 +24,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ko">
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+			<body className={`${hostGrotesk.variable} ${geistMono.variable} antialiased`}>
+				{children}
+			</body>
 		</html>
 	)
 }
