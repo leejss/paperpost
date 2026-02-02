@@ -6,63 +6,63 @@
    ============================================ */
 
 :root {
-	/* Background Colors */
-	--bg-default: #ffffff;
-	--bg-subtle: #fafafa;
-	--bg-muted: #f4f4f5;
-	--bg-emphasis: #e4e4e7;
-	--bg-inverse: #18181b;
+  /* Background Colors */
+  --bg-default: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #f4f4f5;
+  --bg-emphasis: #e4e4e7;
+  --bg-inverse: #18181b;
 
-	/* Foreground Colors */
-	--fg-default: #18181b;
-	--fg-subtle: #52525b;
-	--fg-muted: #71717a;
-	--fg-emphasis: #27272a;
-	--fg-inverse: #fafafa;
-	--fg-disabled: #a1a1aa;
+  /* Foreground Colors */
+  --fg-default: #18181b;
+  --fg-subtle: #52525b;
+  --fg-muted: #71717a;
+  --fg-emphasis: #27272a;
+  --fg-inverse: #fafafa;
+  --fg-disabled: #a1a1aa;
 
-	/* Border Colors */
-	--border-default: #e4e4e7;
-	--border-subtle: #f4f4f5;
-	--border-emphasis: #d4d4d8;
-	--border-inverse: #27272a;
+  /* Border Colors */
+  --border-default: #e4e4e7;
+  --border-subtle: #f4f4f5;
+  --border-emphasis: #d4d4d8;
+  --border-inverse: #27272a;
 
-	/* Primary Colors (Brand) */
-	--primary-default: #18181b;
-	--primary-hover: #27272a;
-	--primary-active: #3f3f46;
-	--primary-fg: #ffffff;
+  /* Primary Colors (Brand) */
+  --primary-default: #18181b;
+  --primary-hover: #27272a;
+  --primary-active: #3f3f46;
+  --primary-fg: #ffffff;
 
-	/* Secondary Colors */
-	--secondary-default: #f4f4f5;
-	--secondary-hover: #e4e4e7;
-	--secondary-active: #d4d4d8;
-	--secondary-fg: #18181b;
+  /* Secondary Colors */
+  --secondary-default: #f4f4f5;
+  --secondary-hover: #e4e4e7;
+  --secondary-active: #d4d4d8;
+  --secondary-fg: #18181b;
 
-	/* Status Colors */
-	--error-bg: #fef2f2;
-	--error-fg: #dc2626;
-	--error-border: #fecaca;
+  /* Status Colors */
+  --error-bg: #fef2f2;
+  --error-fg: #dc2626;
+  --error-border: #fecaca;
 
-	--success-bg: #f0fdf4;
-	--success-fg: #16a34a;
-	--success-border: #bbf7d0;
+  --success-bg: #f0fdf4;
+  --success-fg: #16a34a;
+  --success-border: #bbf7d0;
 
-	--warning-bg: #fffbeb;
-	--warning-fg: #d97706;
-	--warning-border: #fde68a;
+  --warning-bg: #fffbeb;
+  --warning-fg: #d97706;
+  --warning-border: #fde68a;
 
-	/* Danger Colors */
-	--danger-default: #dc2626;
-	--danger-hover: #b91c1c;
-	--danger-active: #991b1b;
-	--danger-fg: #ffffff;
-	--danger-subtle: #fef2f2;
-	--danger-border: #fecaca;
+  /* Danger Colors */
+  --danger-default: #dc2626;
+  --danger-hover: #b91c1c;
+  --danger-active: #991b1b;
+  --danger-fg: #ffffff;
+  --danger-subtle: #fef2f2;
+  --danger-border: #fecaca;
 
-	/* Interactive States */
-	--ring-default: #18181b;
-	--ring-offset: #ffffff;
+  /* Interactive States */
+  --ring-default: #18181b;
+  --ring-offset: #ffffff;
 }
 
 /* ============================================
@@ -70,69 +70,69 @@
    ============================================ */
 
 @theme inline {
-	/* Typography */
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+  /* Typography */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 
-	/* Background Colors */
-	--color-bg-default: var(--bg-default);
-	--color-bg-subtle: var(--bg-subtle);
-	--color-bg-muted: var(--bg-muted);
-	--color-bg-emphasis: var(--bg-emphasis);
-	--color-bg-inverse: var(--bg-inverse);
+  /* Background Colors */
+  --color-bg-default: var(--bg-default);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-bg-muted: var(--bg-muted);
+  --color-bg-emphasis: var(--bg-emphasis);
+  --color-bg-inverse: var(--bg-inverse);
 
-	/* Foreground Colors */
-	--color-fg-default: var(--fg-default);
-	--color-fg-subtle: var(--fg-subtle);
-	--color-fg-muted: var(--fg-muted);
-	--color-fg-emphasis: var(--fg-emphasis);
-	--color-fg-inverse: var(--fg-inverse);
-	--color-fg-disabled: var(--fg-disabled);
+  /* Foreground Colors */
+  --color-fg-default: var(--fg-default);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-emphasis: var(--fg-emphasis);
+  --color-fg-inverse: var(--fg-inverse);
+  --color-fg-disabled: var(--fg-disabled);
 
-	/* Border Colors */
-	--color-border-default: var(--border-default);
-	--color-border-subtle: var(--border-subtle);
-	--color-border-emphasis: var(--border-emphasis);
-	--color-border-inverse: var(--border-inverse);
+  /* Border Colors */
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-emphasis: var(--border-emphasis);
+  --color-border-inverse: var(--border-inverse);
 
-	/* Primary (Brand) Colors */
-	--color-primary: var(--primary-default);
-	--color-primary-hover: var(--primary-hover);
-	--color-primary-active: var(--primary-active);
-	--color-primary-fg: var(--primary-fg);
+  /* Primary (Brand) Colors */
+  --color-primary: var(--primary-default);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-fg: var(--primary-fg);
 
-	/* Secondary Colors */
-	--color-secondary: var(--secondary-default);
-	--color-secondary-hover: var(--secondary-hover);
-	--color-secondary-active: var(--secondary-active);
-	--color-secondary-fg: var(--secondary-fg);
+  /* Secondary Colors */
+  --color-secondary: var(--secondary-default);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
+  --color-secondary-fg: var(--secondary-fg);
 
-	/* Status - Error */
-	--color-error-bg: var(--error-bg);
-	--color-error-fg: var(--error-fg);
-	--color-error-border: var(--error-border);
+  /* Status - Error */
+  --color-error-bg: var(--error-bg);
+  --color-error-fg: var(--error-fg);
+  --color-error-border: var(--error-border);
 
-	/* Status - Success */
-	--color-success-bg: var(--success-bg);
-	--color-success-fg: var(--success-fg);
-	--color-success-border: var(--success-border);
+  /* Status - Success */
+  --color-success-bg: var(--success-bg);
+  --color-success-fg: var(--success-fg);
+  --color-success-border: var(--success-border);
 
-	/* Status - Warning */
-	--color-warning-bg: var(--warning-bg);
-	--color-warning-fg: var(--warning-fg);
-	--color-warning-border: var(--warning-border);
+  /* Status - Warning */
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-fg: var(--warning-fg);
+  --color-warning-border: var(--warning-border);
 
-	/* Danger Colors */
-	--color-danger: var(--danger-default);
-	--color-danger-hover: var(--danger-hover);
-	--color-danger-active: var(--danger-active);
-	--color-danger-fg: var(--danger-fg);
-	--color-danger-subtle: var(--danger-subtle);
-	--color-danger-border: var(--danger-border);
+  /* Danger Colors */
+  --color-danger: var(--danger-default);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-active: var(--danger-active);
+  --color-danger-fg: var(--danger-fg);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-danger-border: var(--danger-border);
 
-	/* Ring/Focus */
-	--color-ring: var(--ring-default);
-	--color-ring-offset: var(--ring-offset);
+  /* Ring/Focus */
+  --color-ring: var(--ring-default);
+  --color-ring-offset: var(--ring-offset);
 }
 
 /* ============================================
@@ -140,9 +140,9 @@
    ============================================ */
 
 body {
-	background-color: var(--bg-default);
-	color: var(--fg-default);
-	font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--bg-default);
+  color: var(--fg-default);
+  font-family: var(--font-host-grotesk), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ============================================
@@ -151,63 +151,63 @@ body {
 
 /* MDX Editor - CSS Custom Properties */
 .mdxeditor {
-	--baseBase: var(--bg-default);
-	--baseBgSubtle: var(--bg-subtle);
-	--baseBg: var(--bg-default);
-	--baseBgHover: var(--bg-muted);
-	--baseBgActive: var(--bg-emphasis);
-	--baseLine: var(--border-default);
-	--baseBorder: var(--border-default);
-	--baseBorderHover: var(--border-emphasis);
-	--baseSolid: var(--fg-muted);
-	--baseSolidHover: var(--fg-subtle);
-	--baseText: var(--fg-default);
-	--baseTextContrast: var(--fg-inverse);
-	--accentBase: var(--primary-default);
-	--accentBgSubtle: var(--primary-hover);
-	--accentBg: var(--primary-default);
-	--accentBgHover: var(--primary-hover);
-	--accentBgActive: var(--primary-active);
-	--accentLine: var(--primary-hover);
-	--accentBorder: var(--primary-default);
-	--accentBorderHover: var(--primary-hover);
-	--accentSolid: var(--primary-default);
-	--accentSolidHover: var(--primary-hover);
-	--accentText: var(--primary-fg);
-	--accentTextContrast: var(--primary-fg);
-	--basePageBg: var(--bg-default);
-	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --baseBase: var(--bg-default);
+  --baseBgSubtle: var(--bg-subtle);
+  --baseBg: var(--bg-default);
+  --baseBgHover: var(--bg-muted);
+  --baseBgActive: var(--bg-emphasis);
+  --baseLine: var(--border-default);
+  --baseBorder: var(--border-default);
+  --baseBorderHover: var(--border-emphasis);
+  --baseSolid: var(--fg-muted);
+  --baseSolidHover: var(--fg-subtle);
+  --baseText: var(--fg-default);
+  --baseTextContrast: var(--fg-inverse);
+  --accentBase: var(--primary-default);
+  --accentBgSubtle: var(--primary-hover);
+  --accentBg: var(--primary-default);
+  --accentBgHover: var(--primary-hover);
+  --accentBgActive: var(--primary-active);
+  --accentLine: var(--primary-hover);
+  --accentBorder: var(--primary-default);
+  --accentBorderHover: var(--primary-hover);
+  --accentSolid: var(--primary-default);
+  --accentSolidHover: var(--primary-hover);
+  --accentText: var(--primary-fg);
+  --accentTextContrast: var(--primary-fg);
+  --basePageBg: var(--bg-default);
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 /* Toolbar container */
 .mdxeditor-toolbar {
-	background-color: var(--bg-subtle) !important;
-	border-bottom: 1px solid var(--border-default) !important;
+  background-color: var(--bg-subtle) !important;
+  border-bottom: 1px solid var(--border-default) !important;
 }
 
 /* Toolbar buttons */
 .mdxeditor-toolbar button {
-	color: var(--fg-default) !important;
-	background-color: transparent !important;
+  color: var(--fg-default) !important;
+  background-color: transparent !important;
 }
 
 .mdxeditor-toolbar button:hover {
-	background-color: var(--bg-muted) !important;
+  background-color: var(--bg-muted) !important;
 }
 
 .mdxeditor-toolbar button:active,
 .mdxeditor-toolbar button[data-active="true"] {
-	background-color: var(--bg-emphasis) !important;
+  background-color: var(--bg-emphasis) !important;
 }
 
 /* Toolbar select/dropdown */
 .mdxeditor-toolbar select {
-	color: var(--fg-default) !important;
-	background-color: var(--bg-default) !important;
-	border-color: var(--border-default) !important;
+  color: var(--fg-default) !important;
+  background-color: var(--bg-default) !important;
+  border-color: var(--border-default) !important;
 }
 
 /* Toolbar separator */
 .mdxeditor-toolbar [role="separator"] {
-	background-color: var(--border-default) !important;
+  background-color: var(--border-default) !important;
 }
