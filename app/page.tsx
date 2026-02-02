@@ -89,45 +89,56 @@ export default function EditorPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-bg-subtle">
-			<div className="mx-auto max-w-4xl px-4 py-8">
-				<header className="mb-8 flex items-start justify-between">
-					<h1 className="text-2xl font-bold text-fg-default">Paperpost</h1>
-				</header>
+		<div className="min-h-screen bg-bg-subtle flex flex-col items-center">
+			<header className="sticky top-0 z-50 w-full border-b border-border-subtle/50 bg-bg-subtle/80 backdrop-blur-xl supports-backdrop-filter:bg-bg-subtle/60">
+				<div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6 transition-all duration-500 ease-in-out">
+					<h1 className="text-lg font-semibold tracking-tight text-fg-default opacity-90 transition-opacity hover:opacity-60 cursor-default select-none">
+						Paperpost
+					</h1>
+				</div>
+			</header>
 
-				<main className="space-y-4">
+			<main className="w-full max-w-3xl flex-1 px-2 pl-6 md:py-10 transition-all duration-500">
+				<div>
 					<MarkdownEditor value={content} onChange={setContent} />
+				</div>
 
-					<div className="flex items-center justify-between">
-						<div className="text-sm text-fg-muted">
-							{(contentSizeBytes / 1024).toFixed(1)} KB / 1024 KB
-							{isOverLimit && <span className="ml-2 text-error-fg">크기 초과</span>}
+				{/* Floating Action Bar */}
+				<div className="fixed bottom-8 left-1/2 z-40 -translate-x-1/2 transform transition-all duration-500 ease-out">
+					<div className="flex items-center gap-3 rounded-full border border-border-default/40 bg-bg-default/70 p-1.5 pl-5 pr-1.5 backdrop-blur-2xl transition-all duration-300 hover:bg-bg-default/90 ring-1 ring-black/5 dark:ring-white/10">
+						<div className="text-xs font-medium text-fg-muted tabular-nums tracking-wide">
+							{(contentSizeBytes / 1024).toFixed(1)}{" "}
+							<span className="text-fg-subtle text-[10px] uppercase">KB</span>
+							{isOverLimit && <span className="ml-2 font-semibold text-error-fg">Exceeded</span>}
 						</div>
-
-						<div className="flex gap-2">
-							<Button
-								onClick={handleEnterPreview}
-								disabled={isEmpty || isOverLimit}
-								variant="secondary"
-								size="lg"
-							>
-								Preview
-							</Button>
-						</div>
+						<div className="h-3 w-px bg-border-default/60" />
+						<Button
+							onClick={handleEnterPreview}
+							disabled={isEmpty || isOverLimit}
+							variant="ghost"
+							size="sm"
+							className="h-8 rounded-full px-4 text-xs font-medium hover:bg-bg-emphasis/50 hover:text-fg-default transition-colors"
+						>
+							Preview
+						</Button>
 					</div>
+				</div>
 
-					{error && <div className="rounded-sm bg-error-bg p-4 text-error-fg text-sm">{error}</div>}
-				</main>
+				{error && (
+					<div className="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 transform rounded-lg bg-error-bg px-4 py-2 text-sm font-medium text-error-fg shadow-lg">
+						{error}
+					</div>
+				)}
+			</main>
 
-				<ShareDialog
-					open={isDialogOpen}
-					onClose={handleCloseDialog}
-					onShare={handleShare}
-					isLoading={isSharing}
-					result={shareResult}
-					error={error}
-				/>
-			</div>
+			<ShareDialog
+				open={isDialogOpen}
+				onClose={handleCloseDialog}
+				onShare={handleShare}
+				isLoading={isSharing}
+				result={shareResult}
+				error={error}
+			/>
 		</div>
 	)
 }

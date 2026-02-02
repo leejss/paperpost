@@ -51,29 +51,52 @@ export function MarkdownPreview({ content, onBack, onShare }: MarkdownPreviewPro
 	const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim() || "제목 없음"
 
 	return (
-		<div className="min-h-screen bg-bg-default">
-			{/* Fixed Header */}
-			<div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-bg-default/80 backdrop-blur-sm border-b border-border-default">
-				<Button variant="ghost" size="sm" onClick={onBack} className="gap-2">
-					<ArrowLeft className="h-4 w-4" />
-					뒤로
-				</Button>
-				<Button onClick={onShare} size="sm" className="gap-2">
-					<Share className="h-4 w-4" />
-					Share
-				</Button>
-			</div>
+		<div className="min-h-screen bg-bg-subtle flex flex-col items-center">
+			<header className="sticky top-0 z-50 w-full border-b border-border-subtle/50 bg-bg-subtle/80 backdrop-blur-xl supports-[backdrop-filter]:bg-bg-subtle/60">
+				<div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6 transition-all duration-500 ease-in-out">
+					<Button
+						variant="ghost"
+						size="sm"
+						onClick={onBack}
+						className="gap-2 text-fg-muted hover:text-fg-default transition-colors -ml-2"
+					>
+						<ArrowLeft className="h-4 w-4" />
+						<span className="font-medium">Back</span>
+					</Button>
 
-			{/* Content */}
-			<div className="mx-auto max-w-4xl px-4 pt-20 pb-8">
+					{/* Optional: Title could go here if we extracted it, for now keeping it clean or adding a subtle 'Preview' label */}
+					<div className="text-sm font-medium text-fg-subtle opacity-50">Preview</div>
+
+					<Button
+						onClick={onShare}
+						size="sm"
+						className="gap-2 rounded-full px-4 font-medium shadow-sm hover:shadow transition-all"
+					>
+						<Share className="h-3.5 w-3.5" />
+						Share
+					</Button>
+				</div>
+			</header>
+
+			<main className="w-full max-w-3xl flex-1 px-6 py-12 md:py-20 transition-all duration-500">
 				{isLoading ? (
-					<div className="flex items-center justify-center py-20">
-						<div className="text-fg-muted">로딩 중...</div>
+					<div className="mx-auto max-w-2xl py-12 space-y-8 animate-pulse">
+						<div className="h-8 w-3/4 bg-bg-emphasis/50 rounded-lg"></div>
+						<div className="space-y-4">
+							<div className="h-4 w-full bg-bg-emphasis/30 rounded"></div>
+							<div className="h-4 w-5/6 bg-bg-emphasis/30 rounded"></div>
+							<div className="h-4 w-full bg-bg-emphasis/30 rounded"></div>
+						</div>
 					</div>
 				) : (
-					<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
+					<div className="mx-auto max-w-2xl">
+						<article
+							className="prose max-w-none prose-headings:font-semibold prose-a:text-primary-default prose-img:rounded-xl text-fg-default prose-headings:text-fg-default prose-p:text-fg-default prose-strong:text-fg-default prose-ul:text-fg-default prose-ol:text-fg-default"
+							dangerouslySetInnerHTML={{ __html: html }}
+						/>
+					</div>
 				)}
-			</div>
+			</main>
 		</div>
 	)
 }
