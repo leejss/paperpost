@@ -1,9 +1,8 @@
 "use client"
 
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
 import { FileText } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MarkdownEditor } from "@/components/editor/markdown-editor"
 import { MarkdownPreview } from "@/components/preview/markdown-preview"
 import { ShareDialog } from "@/components/share/share-dialog"
@@ -21,6 +20,8 @@ export default function EditorPage() {
 	const [isSharing, setIsSharing] = useState(false)
 	const [shareResult, setShareResult] = useState<CreateDocResult | null>(null)
 	const [error, setError] = useState<string | null>(null)
+	const [isSignedIn, setIsSignedIn] = useState(false)
+	const [isAuthLoaded, setIsAuthLoaded] = useState(false)
 
 	const contentSizeBytes = new TextEncoder().encode(content).length
 	const isOverLimit = contentSizeBytes > MAX_FILE_SIZE_BYTES
@@ -75,6 +76,33 @@ export default function EditorPage() {
 		setViewMode("edit")
 	}
 
+	useEffect(() => {
+		let isMounted = true
+
+		const init = async () => {
+			try {
+				const response = await fetch("/api/auth/me", { cache: "no-store" })
+				const data = (await response.json()) as { authenticated: boolean }
+
+				if (!isMounted) {
+					return
+				}
+
+				setIsSignedIn(data.authenticated)
+			} finally {
+				if (isMounted) {
+					setIsAuthLoaded(true)
+				}
+			}
+		}
+
+		init()
+
+		return () => {
+			isMounted = false
+		}
+	}, [])
+
 	if (viewMode === "preview") {
 		return (
 			<>
@@ -99,27 +127,20 @@ export default function EditorPage() {
 						Paperpost
 					</h1>
 					<div className="flex items-center gap-2">
-						<SignedOut>
-							<SignInButton mode="modal">
+						{isAuthLoaded && !isSignedIn ? (
+							<Link href="/login?next=/my-docs">
 								<Button variant="ghost" size="sm">
 									로그인
 								</Button>
-							</SignInButton>
-						</SignedOut>
-						<SignedIn>
+							</Link>
+						) : null}
+						{isSignedIn ? (
 							<Link href="/my-docs">
 								<Button variant="ghost" size="sm" className="gap-2">
 									<FileText className="w-4 h-4" />내 문서
 								</Button>
 							</Link>
-							<UserButton
-								appearance={{
-									elements: {
-										avatarBox: "w-8 h-8",
-									},
-								}}
-							/>
-						</SignedIn>
+						) : null}
 					</div>
 				</div>
 			</header>

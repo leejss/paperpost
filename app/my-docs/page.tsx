@@ -1,18 +1,17 @@
-import { UserButton } from "@clerk/nextjs"
-import { auth } from "@clerk/nextjs/server"
 import { ArrowLeft, Calendar, Clock, ExternalLink, Eye, FileText } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { getCurrentUserId } from "@/lib/auth/current-user"
 import { getDocumentsByUserId } from "@/lib/db/queries"
 
 export const dynamic = "force-dynamic"
 
 export default async function MyDocsPage() {
-	const { userId } = await auth()
+	const userId = await getCurrentUserId()
 
 	if (!userId) {
-		redirect("/")
+		redirect("/login?next=/my-docs")
 	}
 
 	const documents = await getDocumentsByUserId(userId)
@@ -30,13 +29,11 @@ export default async function MyDocsPage() {
 						</Link>
 						<h1 className="text-lg font-semibold tracking-tight text-fg-default">내 문서</h1>
 					</div>
-					<UserButton
-						appearance={{
-							elements: {
-								avatarBox: "w-8 h-8",
-							},
-						}}
-					/>
+					<form action="/auth/logout" method="post">
+						<Button variant="ghost" size="sm">
+							로그아웃
+						</Button>
+					</form>
 				</div>
 			</header>
 
@@ -94,7 +91,7 @@ export default async function MyDocsPage() {
 											<Clock className="w-3.5 h-3.5" />
 											<span>
 												{doc.expiresAt
-													? new Date(doc.expiresAt).toLocaleDateString("ko-KR") + " 만료"
+													? `${new Date(doc.expiresAt).toLocaleDateString("ko-KR")} 만료`
 													: "영구 보관"}
 											</span>
 										</div>

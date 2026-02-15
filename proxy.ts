@@ -1,12 +1,21 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
+import { type NextRequest, NextResponse } from "next/server"
+import { SESSION_COOKIE_NAME } from "@/lib/auth/constants"
 
-const isProtectedRoute = createRouteMatcher(["/my-docs(.*)"])
+function isProtectedRoute(pathname: string) {
+	return pathname.startsWith("/my-docs")
+}
 
-export default clerkMiddleware(async (auth, req) => {
-	if (isProtectedRoute(req)) {
-		await auth.protect()
+export default async function proxy(request: NextRequest) {
+	const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+
+	if (isProtectedRoute(request.nextUrl.pathname) && !sessionToken) {
+		const loginUrl = new URL("/login", request.url)
+		loginUrl.searchParams.set("next", request.nextUrl.pathname)
+		return NextResponse.redirect(loginUrl)
 	}
-})
+
+	return NextResponse.next()
+}
 
 export const config = {
 	matcher: [
