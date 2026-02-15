@@ -23,16 +23,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-  if (!clerkPublishableKey) {
-    throw new Error(
-      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY 환경변수가 설정되지 않았습니다",
-    );
-  }
-
   return (
-    <ClerkProvider publishableKey={clerkPublishableKey}>
+    <ClerkProvider>
       <html lang="ko">
         <body
           className={`${hostGrotesk.variable} ${geistMono.variable} antialiased`}
