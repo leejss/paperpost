@@ -1,5 +1,8 @@
 "use client"
 
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
+import { FileText } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
 import { MarkdownEditor } from "@/components/editor/markdown-editor"
 import { MarkdownPreview } from "@/components/preview/markdown-preview"
@@ -95,6 +98,29 @@ export default function EditorPage() {
 					<h1 className="text-lg font-semibold tracking-tight text-fg-default opacity-90 transition-opacity hover:opacity-60 cursor-default select-none">
 						Paperpost
 					</h1>
+					<div className="flex items-center gap-2">
+						<SignedOut>
+							<SignInButton mode="modal">
+								<Button variant="ghost" size="sm">
+									로그인
+								</Button>
+							</SignInButton>
+						</SignedOut>
+						<SignedIn>
+							<Link href="/my-docs">
+								<Button variant="ghost" size="sm" className="gap-2">
+									<FileText className="w-4 h-4" />내 문서
+								</Button>
+							</Link>
+							<UserButton
+								appearance={{
+									elements: {
+										avatarBox: "w-8 h-8",
+									},
+								}}
+							/>
+						</SignedIn>
+					</div>
 				</div>
 			</header>
 
