@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getDocumentById } from "@/lib/db/queries"
-import { getMarkdownFromR2 } from "@/lib/r2/operations"
+import { getDocumentContentType, getDocumentFormat } from "@/lib/documents/format"
+import { getDocumentContentFromR2 } from "@/lib/r2/operations"
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
@@ -20,13 +21,16 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 			return new NextResponse("Gone", { status: 410 })
 		}
 
-		const markdown = await getMarkdownFromR2(doc.r2Key)
-		const filename = `${id}.md`
+		const content = await getDocumentContentFromR2(doc.r2Key)
+		const format = getDocumentFormat(doc.r2Key)
+		const filename = `${id}.${format === "html" ? "html" : "md"}`
 
-		return new NextResponse(markdown, {
+		return new NextResponse(content, {
 			headers: {
-				"Content-Type": "text/markdown; charset=utf-8",
+				"Content-Type": `${getDocumentContentType(format)}; charset=utf-8`,
 				"Content-Disposition": `attachment; filename="${encodeURIComponent(filename)}"`,
+				// Keep uploaded HTML isolated even if a client ignores attachment handling.
+				"Content-Security-Policy": "sandbox; default-src 'none'",
 			},
 		})
 	} catch (error) {

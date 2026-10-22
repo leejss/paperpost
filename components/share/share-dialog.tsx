@@ -138,6 +138,9 @@ export function ShareDialog({
 					)}
 
 					<ExpirySelector value={expiresIn} onChange={setExpiresIn} />
+					<p className="text-sm leading-6 text-fg-muted">
+						검색엔진에 색인되지 않도록 설정됩니다. 링크를 아는 사람은 누구나 볼 수 있습니다.
+					</p>
 
 					<div className="flex justify-end gap-2 pt-2">
 						<Button variant="ghost" onClick={handleClose} disabled={isLoading}>

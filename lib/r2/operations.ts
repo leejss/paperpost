@@ -4,9 +4,10 @@ import {
 	HeadObjectCommand,
 	PutObjectCommand,
 } from "@aws-sdk/client-s3"
+import { type DocumentFormat, getDocumentContentType } from "@/lib/documents/format"
 import { getR2Bucket, getR2Client } from "./client"
 
-export async function getMarkdownFromR2(key: string): Promise<string> {
+export async function getDocumentContentFromR2(key: string): Promise<string> {
 	const command = new GetObjectCommand({
 		Bucket: getR2Bucket(),
 		Key: key,
@@ -16,7 +17,7 @@ export async function getMarkdownFromR2(key: string): Promise<string> {
 	const body = await response.Body?.transformToString()
 
 	if (!body) {
-		throw new Error("Failed to fetch markdown from R2")
+		throw new Error("Failed to fetch document from R2")
 	}
 
 	return body
@@ -43,12 +44,16 @@ export async function deleteObject(key: string): Promise<void> {
 	await getR2Client().send(command)
 }
 
-export async function uploadObject(key: string, body: string): Promise<void> {
+export async function uploadObject(
+	key: string,
+	body: string,
+	format: DocumentFormat = "markdown"
+): Promise<void> {
 	const command = new PutObjectCommand({
 		Bucket: getR2Bucket(),
 		Key: key,
 		Body: body,
-		ContentType: "text/markdown",
+		ContentType: getDocumentContentType(format),
 	})
 	await getR2Client().send(command)
 }

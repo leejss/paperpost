@@ -1,4 +1,6 @@
+import { HtmlFrame } from "@/components/preview/html-frame"
 import type { Document } from "@/lib/db/schema"
+import { getDocumentFormat } from "@/lib/documents/format"
 import { DeleteDialog } from "./delete-dialog"
 
 interface DocumentViewerProps {
@@ -8,6 +10,7 @@ interface DocumentViewerProps {
 
 export function DocumentViewer({ html, document }: DocumentViewerProps) {
 	const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+	const isHtml = getDocumentFormat(document.r2Key) === "html"
 
 	return (
 		<div className="min-h-screen bg-bg-default">
@@ -16,7 +19,7 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 					<span className="ml-2">{document.expiresAt.toLocaleDateString("ko-KR")} 만료</span>
 				)}
 			</p>
-			<div className="mx-auto max-w-3xl px-4 py-8">
+			<div className={`mx-auto px-4 py-8 ${isHtml ? "max-w-7xl" : "max-w-3xl"}`}>
 				<header className="mb-8 flex items-center justify-between border-b border-border-default pb-4">
 					<h1>Paperpost</h1>
 					<div className="flex gap-2">
@@ -38,7 +41,11 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 					</div>
 				</header>
 
-				<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
+				{isHtml ? (
+					<HtmlFrame content={html} />
+				) : (
+					<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
+				)}
 			</div>
 		</div>
 	)

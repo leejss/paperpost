@@ -9,8 +9,9 @@ import {
 	PendingView,
 } from "@/components/document/status-pages"
 import { getDocumentById } from "@/lib/db/queries"
+import { getDocumentFormat } from "@/lib/documents/format"
 import { renderMarkdown } from "@/lib/markdown/renderer"
-import { getMarkdownFromR2 } from "@/lib/r2/operations"
+import { getDocumentContentFromR2 } from "@/lib/r2/operations"
 
 export const revalidate = 300 // 5분
 
@@ -18,7 +19,7 @@ const DEFAULT_PAGE_TITLE = "PaperPost"
 const SHARED_DOC_DESCRIPTION = "PaperPost로 공유된 문서입니다."
 
 const getDocumentByIdCached = cache(getDocumentById)
-const getMarkdownFromR2Cached = cache(getMarkdownFromR2)
+const getDocumentContentFromR2Cached = cache(getDocumentContentFromR2)
 
 function toPlainTitleText(raw: string): string {
 	return raw
@@ -105,8 +106,8 @@ export default async function DocumentPage({ params }: DocumentPageProps) {
 	}
 
 	try {
-		const markdown = await getMarkdownFromR2Cached(doc.r2Key)
-		const html = await renderMarkdown(markdown)
+		const content = await getDocumentContentFromR2Cached(doc.r2Key)
+		const html = getDocumentFormat(doc.r2Key) === "html" ? content : await renderMarkdown(content)
 		return <DocumentViewer html={html} document={doc} />
 	} catch (error) {
 		console.error("Failed to render document:", error)
@@ -118,14 +119,21 @@ export async function generateMetadata({ params }: DocumentPageProps): Promise<M
 	const { id } = await params
 	const doc = await getDocumentByIdCached(id)
 
-	if (!doc || doc.status !== "active") {
+	if (!doc || doc.status !== "active" || (doc.expiresAt && doc.expiresAt <= new Date())) {
 		return {
 			title: `문서를 찾을 수 없음 - ${DEFAULT_PAGE_TITLE}`,
 		}
 	}
 
+	if (getDocumentFormat(doc.r2Key) === "html") {
+		return {
+			title: `HTML 문서 - ${DEFAULT_PAGE_TITLE}`,
+			description: SHARED_DOC_DESCRIPTION,
+		}
+	}
+
 	try {
-		const markdown = await getMarkdownFromR2Cached(doc.r2Key)
+		const markdown = await getDocumentContentFromR2Cached(doc.r2Key)
 		const title = extractDocumentTitle(markdown)
 
 		return {

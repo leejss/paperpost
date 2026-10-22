@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
 	title: "PaperPost",
-	description: "Share your markdown artifacts beautifully",
+	description: "Markdown과 HTML 문서를 작성하고 공유하세요",
 }
 
 export default function RootLayout({

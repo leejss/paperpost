@@ -3,10 +3,13 @@
 import { FileText } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { HtmlEditor } from "@/components/editor/html-editor"
 import { MarkdownEditor } from "@/components/editor/markdown-editor"
+import { HtmlPreview } from "@/components/preview/html-preview"
 import { MarkdownPreview } from "@/components/preview/markdown-preview"
 import { ShareDialog } from "@/components/share/share-dialog"
 import { Button } from "@/components/ui/button"
+import type { DocumentFormat } from "@/lib/documents/format"
 import { type ExpiryOption, MAX_FILE_SIZE_BYTES } from "@/lib/utils/constants"
 import type { CreateDocResult } from "@/types/document"
 import { createAndUploadDocAction } from "./actions"
@@ -14,7 +17,10 @@ import { createAndUploadDocAction } from "./actions"
 type ViewMode = "edit" | "preview"
 
 export default function EditorPage() {
-	const [content, setContent] = useState("")
+	const [format, setFormat] = useState<DocumentFormat>("markdown")
+	const [drafts, setDrafts] = useState({ markdown: "", html: "" })
+	const content = drafts[format]
+	const setContent = (value: string) => setDrafts((current) => ({ ...current, [format]: value }))
 	const [viewMode, setViewMode] = useState<ViewMode>("edit")
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
 	const [isSharing, setIsSharing] = useState(false)
@@ -37,6 +43,7 @@ export default function EditorPage() {
 		try {
 			const result = await createAndUploadDocAction({
 				content,
+				format,
 				expiresIn: options.expiresIn,
 				visibility: options.visibility,
 			})
@@ -104,9 +111,10 @@ export default function EditorPage() {
 	}, [])
 
 	if (viewMode === "preview") {
+		const Preview = format === "html" ? HtmlPreview : MarkdownPreview
 		return (
 			<>
-				<MarkdownPreview content={content} onBack={handleExitPreview} onShare={handleOpenDialog} />
+				<Preview content={content} onBack={handleExitPreview} onShare={handleOpenDialog} />
 				<ShareDialog
 					open={isDialogOpen}
 					onClose={handleCloseDialog}
@@ -145,9 +153,29 @@ export default function EditorPage() {
 				</div>
 			</header>
 
-			<main className="w-full max-w-3xl flex-1 px-2 pl-6 md:py-10 transition-all duration-500">
+			<main className="w-full max-w-3xl flex-1 px-4 py-6 md:px-6 md:py-10">
+				<fieldset
+					className="mb-6 flex items-center gap-1 rounded-lg border border-border-default bg-bg-default p-1"
+					aria-label="문서 형식"
+				>
+					{(["markdown", "html"] as const).map((option) => (
+						<Button
+							key={option}
+							variant={format === option ? "secondary" : "ghost"}
+							aria-pressed={format === option}
+							onClick={() => setFormat(option)}
+							className="flex-1"
+						>
+							{option === "html" ? "HTML" : "Markdown"}
+						</Button>
+					))}
+				</fieldset>
 				<div>
-					<MarkdownEditor value={content} onChange={setContent} />
+					{format === "html" ? (
+						<HtmlEditor value={content} onChange={setContent} />
+					) : (
+						<MarkdownEditor value={content} onChange={setContent} />
+					)}
 				</div>
 
 				{/* Floating Action Bar */}
@@ -156,7 +184,7 @@ export default function EditorPage() {
 						<div className="text-xs font-medium text-fg-muted tabular-nums tracking-wide">
 							{(contentSizeBytes / 1024).toFixed(1)}{" "}
 							<span className="text-fg-subtle text-[10px] uppercase">KB</span>
-							{isOverLimit && <span className="ml-2 font-semibold text-error-fg">Exceeded</span>}
+							{isOverLimit && <span className="ml-2 font-semibold text-error-fg">1MB 초과</span>}
 						</div>
 						<div className="h-3 w-px bg-border-default/60" />
 						<Button
@@ -166,7 +194,7 @@ export default function EditorPage() {
 							size="sm"
 							className="h-8 rounded-full px-4 text-xs font-medium hover:bg-bg-emphasis/50 hover:text-fg-default transition-colors"
 						>
-							Preview
+							미리보기
 						</Button>
 					</div>
 				</div>

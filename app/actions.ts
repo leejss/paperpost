@@ -3,6 +3,7 @@
 import { getCurrentUserId } from "@/lib/auth/current-user"
 import { generateOwnerToken, hashOwnerToken, verifyOwnerToken } from "@/lib/auth/owner-token"
 import { createDocument, getDocumentById, updateDocumentStatus } from "@/lib/db/queries"
+import type { DocumentFormat } from "@/lib/documents/format"
 import { deleteObject, headObject, uploadObject } from "@/lib/r2/operations"
 import { getR2Key } from "@/lib/r2/presign"
 import { type ExpiryOption, getExpiresAt } from "@/lib/utils/constants"
@@ -12,6 +13,7 @@ import type { CreateDocResult } from "@/types/document"
 
 interface CreateDocActionInput {
 	content: string
+	format?: DocumentFormat
 	expiresIn: ExpiryOption
 	visibility: "public" | "unlisted"
 }
@@ -23,7 +25,7 @@ export async function createDocAction(
 		const validated = createDocSchema.parse(input)
 
 		const docId = generateDocId()
-		const r2Key = getR2Key(docId)
+		const r2Key = getR2Key(docId, validated.format)
 		const ownerToken = generateOwnerToken()
 		const ownerTokenHash = hashOwnerToken(ownerToken)
 		const expiresAt = getExpiresAt(validated.expiresIn)
@@ -141,6 +143,7 @@ export async function deleteDocAction(
 
 interface CreateAndUploadDocInput {
 	content: string
+	format?: DocumentFormat
 	expiresIn: ExpiryOption
 	visibility: "public" | "unlisted"
 }
@@ -152,7 +155,7 @@ export async function createAndUploadDocAction(
 		const validated = createDocSchema.parse(input)
 
 		const docId = generateDocId()
-		const r2Key = getR2Key(docId)
+		const r2Key = getR2Key(docId, validated.format)
 		const ownerToken = generateOwnerToken()
 		const ownerTokenHash = hashOwnerToken(ownerToken)
 		const expiresAt = getExpiresAt(validated.expiresIn)
@@ -171,7 +174,7 @@ export async function createAndUploadDocAction(
 			sizeBytes,
 		})
 
-		await uploadObject(r2Key, validated.content)
+		await uploadObject(r2Key, validated.content, validated.format)
 
 		await updateDocumentStatus(docId, "active")
 

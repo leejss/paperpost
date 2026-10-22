@@ -10,6 +10,7 @@
     "format": "biome format --write .",
     "check": "biome check --write .",
     "ci": "biome ci .",
+    "test": "tsx --test tests/*.test.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
@@ -47,6 +48,7 @@
     "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.8",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
