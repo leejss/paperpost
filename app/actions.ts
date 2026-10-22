@@ -3,12 +3,21 @@
 import { getCurrentUserId } from "@/lib/auth/current-user"
 import { generateOwnerToken, hashOwnerToken, verifyOwnerToken } from "@/lib/auth/owner-token"
 import { createDocument, getDocumentById, updateDocumentStatus } from "@/lib/db/queries"
-import type { DocumentFormat } from "@/lib/documents/format"
+import {
+	type DocumentFormat,
+	getDocumentContentType,
+	getDocumentFormat,
+} from "@/lib/documents/format"
 import { deleteObject, headObject, uploadObject } from "@/lib/r2/operations"
-import { getR2Key } from "@/lib/r2/presign"
-import { type ExpiryOption, getExpiresAt } from "@/lib/utils/constants"
+import { createPresignedUploadUrl, getR2Key } from "@/lib/r2/presign"
+import { type ExpiryOption, getExpiresAt, getMaxDocumentSizeBytes } from "@/lib/utils/constants"
 import { generateDocId } from "@/lib/utils/id"
-import { confirmUploadSchema, createDocSchema, deleteDocSchema } from "@/lib/validations/document"
+import {
+	confirmUploadSchema,
+	createDocSchema,
+	createUploadSchema,
+	deleteDocSchema,
+} from "@/lib/validations/document"
 import type { CreateDocResult } from "@/types/document"
 
 interface CreateDocActionInput {
@@ -63,24 +72,74 @@ export async function createDocAction(
 	}
 }
 
+export async function createUploadDocAction(input: {
+	sizeBytes: number
+	format: DocumentFormat
+	expiresIn: ExpiryOption
+	visibility: "public" | "unlisted"
+}): Promise<
+	| { success: true; data: CreateDocResult & { uploadUrl: string } }
+	| { success: false; error: string }
+> {
+	try {
+		const validated = createUploadSchema.parse(input)
+		const id = generateDocId()
+		const r2Key = getR2Key(id, validated.format)
+		const ownerToken = generateOwnerToken()
+		const uploadUrl = await createPresignedUploadUrl(r2Key, validated.sizeBytes, validated.format)
+		await createDocument({
+			id,
+			r2Key,
+			userId: await getCurrentUserId(),
+			visibility: validated.visibility,
+			passwordHash: null,
+			expiresAt: getExpiresAt(validated.expiresIn),
+			ownerTokenHash: hashOwnerToken(ownerToken),
+			status: "pending",
+			sizeBytes: validated.sizeBytes,
+		})
+		const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+		return { success: true, data: { id, viewUrl: `${appUrl}/d/${id}`, ownerToken, uploadUrl } }
+	} catch (error) {
+		console.error("createUploadDocAction error:", error)
+		return { success: false, error: "업로드를 준비하지 못했습니다. 잠시 후 다시 시도해주세요." }
+	}
+}
+
 export async function confirmUploadAction(
-	id: string
+	id: string,
+	ownerToken: string
 ): Promise<{ success: true } | { success: false; error: string }> {
 	try {
-		confirmUploadSchema.parse({ id })
+		confirmUploadSchema.parse({ id, ownerToken })
 
 		const doc = await getDocumentById(id)
 		if (!doc) {
 			return { success: false, error: "문서를 찾을 수 없습니다" }
 		}
 
+		if (!verifyOwnerToken(ownerToken, doc.ownerTokenHash)) {
+			return { success: false, error: "권한이 없습니다" }
+		}
+		if (doc.expiresAt && doc.expiresAt <= new Date()) {
+			return { success: false, error: "만료된 문서입니다" }
+		}
+		if (doc.status === "active") return { success: true }
 		if (doc.status !== "pending") {
 			return { success: false, error: "이미 처리된 문서입니다" }
 		}
 
-		const exists = await headObject(doc.r2Key)
-		if (!exists) {
+		const object = await headObject(doc.r2Key)
+		if (!object) {
 			return { success: false, error: "업로드된 파일을 찾을 수 없습니다" }
+		}
+		const format = getDocumentFormat(doc.r2Key)
+		if (
+			object.sizeBytes !== doc.sizeBytes ||
+			doc.sizeBytes > getMaxDocumentSizeBytes(format) ||
+			object.contentType?.split(";")[0] !== getDocumentContentType(format)
+		) {
+			return { success: false, error: "업로드된 파일의 크기 또는 형식이 일치하지 않습니다" }
 		}
 
 		await updateDocumentStatus(id, "active")

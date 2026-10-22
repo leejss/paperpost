@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getDocumentById } from "@/lib/db/queries"
 import { getDocumentContentType, getDocumentFormat } from "@/lib/documents/format"
-import { getDocumentContentFromR2 } from "@/lib/r2/operations"
+import { getDocumentStreamFromR2 } from "@/lib/r2/operations"
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
@@ -21,7 +21,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 			return new NextResponse("Gone", { status: 410 })
 		}
 
-		const content = await getDocumentContentFromR2(doc.r2Key)
+		const content = await getDocumentStreamFromR2(doc.r2Key)
 		const format = getDocumentFormat(doc.r2Key)
 		const filename = `${id}.${format === "html" ? "html" : "md"}`
 

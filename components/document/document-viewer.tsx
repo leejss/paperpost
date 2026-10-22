@@ -4,7 +4,7 @@ import { getDocumentFormat } from "@/lib/documents/format"
 import { DeleteDialog } from "./delete-dialog"
 
 interface DocumentViewerProps {
-	html: string
+	html?: string
 	document: Document
 }
 
@@ -42,9 +42,9 @@ export function DocumentViewer({ html, document }: DocumentViewerProps) {
 				</header>
 
 				{isHtml ? (
-					<HtmlFrame content={html} />
+					<HtmlFrame src={`/html/${document.id}`} />
 				) : (
-					<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
+					<article className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html ?? "" }} />
 				)}
 			</div>
 		</div>

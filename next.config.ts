@@ -2,11 +2,11 @@ import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
 	experimental: {
-		// Leave room for JSON escaping in a document of up to 1MB.
+		// Markdown requests need room for JSON escaping; HTML uploads go directly to R2.
 		serverActions: { bodySizeLimit: "8mb" },
 	},
 	async headers() {
-		return ["/d/:path*", "/raw/:path*", "/download/:path*"].map((source) => ({
+		return ["/d/:path*", "/html/:path*", "/raw/:path*", "/download/:path*"].map((source) => ({
 			source,
 			headers: [
 				{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },

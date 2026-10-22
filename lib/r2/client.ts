@@ -14,6 +14,8 @@ export function getR2Client(): S3Client {
 
 		_r2Client = new S3Client({
 			region: "auto",
+			// The browser supplies the body after signing; do not sign an empty-body checksum.
+			requestChecksumCalculation: "WHEN_REQUIRED",
 			endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
 			credentials: {
 				accessKeyId,

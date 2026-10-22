@@ -1,5 +1,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
+import { S3Client } from "@aws-sdk/client-s3"
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { createElement } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 import { metadata } from "../app/d/layout"
@@ -7,9 +9,18 @@ import { HtmlFrame } from "../components/preview/html-frame"
 import { getDocumentContentType, getDocumentFormat } from "../lib/documents/format"
 import { readHtmlFile } from "../lib/html/file"
 import { buildHtmlPreview } from "../lib/html/preview"
-import { getR2Key } from "../lib/r2/presign"
-import { MAX_FILE_SIZE_BYTES } from "../lib/utils/constants"
-import { createDocSchema } from "../lib/validations/document"
+import { createHtmlPreviewStream } from "../lib/html/stream"
+import { createUploadCommand, getR2Key, UPLOAD_SIGNABLE_HEADERS } from "../lib/r2/presign"
+import {
+	getMaxDocumentSizeBytes,
+	MAX_FILE_SIZE_BYTES,
+	MAX_HTML_FILE_SIZE_BYTES,
+} from "../lib/utils/constants"
+import {
+	confirmUploadSchema,
+	createDocSchema,
+	createUploadSchema,
+} from "../lib/validations/document"
 import nextConfig from "../next.config"
 
 test("existing Markdown keys and inputs retain their format", () => {
@@ -36,11 +47,38 @@ test("validation rejects blank content and unsupported formats", () => {
 	assert.equal(createDocSchema.safeParse({ content: "ok", format: "svg" }).success, false)
 })
 
-test("the 1MB limit counts UTF-8 bytes, including multibyte characters", () => {
-	const content = `${"가".repeat(Math.floor(MAX_FILE_SIZE_BYTES / 3))}a`
-	assert.equal(new TextEncoder().encode(content).length, MAX_FILE_SIZE_BYTES)
+for (const format of ["markdown", "html"] as const) {
+	test(`${format} enforces its own UTF-8 byte limit at the boundary`, () => {
+		const limit = getMaxDocumentSizeBytes(format)
+		const content = `${"가".repeat(Math.floor(limit / 3))}${"a".repeat(limit % 3)}`
+		assert.equal(new TextEncoder().encode(content).length, limit)
+		assert.equal(createDocSchema.safeParse({ content, format }).success, true)
+		assert.equal(createDocSchema.safeParse({ content: `${content}a`, format }).success, false)
+	})
+}
+
+test("HTML accepts files larger than the Markdown limit, for both source and upload metadata", async () => {
+	const content = `<p>${"a".repeat(MAX_FILE_SIZE_BYTES)}</p>`
 	assert.equal(createDocSchema.safeParse({ content, format: "html" }).success, true)
-	assert.equal(createDocSchema.safeParse({ content: `${content}a`, format: "html" }).success, false)
+	assert.equal(createDocSchema.safeParse({ content, format: "markdown" }).success, false)
+	assert.equal(await readHtmlFile(new File([content], "large.html")), content)
+	assert.equal(
+		createUploadSchema.safeParse({ format: "html", sizeBytes: MAX_HTML_FILE_SIZE_BYTES }).success,
+		true
+	)
+	assert.equal(
+		createUploadSchema.safeParse({ format: "html", sizeBytes: MAX_HTML_FILE_SIZE_BYTES + 1 })
+			.success,
+		false
+	)
+	assert.equal(
+		createUploadSchema.safeParse({ format: "markdown", sizeBytes: MAX_FILE_SIZE_BYTES + 1 })
+			.success,
+		false
+	)
+	for (const sizeBytes of [0, -1, 1.5, Infinity, NaN]) {
+		assert.equal(createUploadSchema.safeParse({ format: "html", sizeBytes }).success, false)
+	}
 })
 
 test("file upload accepts HTML/HTM case-insensitively and decodes UTF-8 with BOM", async () => {
@@ -57,8 +95,8 @@ test("file upload rejects other files, empty content, invalid UTF-8 and oversize
 	await assert.rejects(readHtmlFile(new File([" \n"], "page.html")), /비어/)
 	await assert.rejects(readHtmlFile(new File([new Uint8Array([0xff, 0xfe])], "page.html")), /UTF-8/)
 	await assert.rejects(
-		readHtmlFile(new File(["a".repeat(MAX_FILE_SIZE_BYTES + 1)], "page.html")),
-		/1MB/
+		readHtmlFile(new File(["a".repeat(MAX_HTML_FILE_SIZE_BYTES + 1)], "page.html")),
+		/20MB/
 	)
 })
 
@@ -86,7 +124,7 @@ test("the viewer escapes HTML into an opaque-origin sandbox instead of the paren
 
 test("all document endpoints, including errors, receive search-exclusion and nosniff headers", async () => {
 	const rules = await nextConfig.headers?.()
-	for (const source of ["/d/:path*", "/raw/:path*", "/download/:path*"]) {
+	for (const source of ["/d/:path*", "/html/:path*", "/raw/:path*", "/download/:path*"]) {
 		const headers = rules?.find((rule) => rule.source === source)?.headers
 		assert.equal(
 			headers?.find((header) => header.key === "X-Robots-Tag")?.value,
@@ -103,4 +141,62 @@ test("all document endpoints, including errors, receive search-exclusion and nos
 		noarchive: true,
 		googleBot: { index: false, follow: false, noimageindex: true },
 	})
+})
+
+test("presigned uploads bind byte length, content type and conditional writes without an empty checksum", async () => {
+	const client = new S3Client({
+		region: "auto",
+		endpoint: "https://example.r2.cloudflarestorage.com",
+		credentials: { accessKeyId: "test", secretAccessKey: "test" },
+		requestChecksumCalculation: "WHEN_REQUIRED",
+	})
+	try {
+		const command = createUploadCommand(
+			"bucket",
+			"docs/test.html",
+			MAX_HTML_FILE_SIZE_BYTES,
+			"html"
+		)
+		assert.equal(command.input.ContentLength, MAX_HTML_FILE_SIZE_BYTES)
+		assert.equal(command.input.ContentType, "text/html")
+		assert.equal(command.input.IfNoneMatch, "*")
+		const url = new URL(
+			await getSignedUrl(client, command, {
+				expiresIn: 300,
+				signableHeaders: UPLOAD_SIGNABLE_HEADERS,
+			})
+		)
+		const signedHeaders = url.searchParams.get("X-Amz-SignedHeaders")?.split(";")
+		for (const header of UPLOAD_SIGNABLE_HEADERS) assert.ok(signedHeaders?.includes(header))
+		assert.equal(url.searchParams.get("X-Amz-Expires"), "300")
+		assert.ok(!url.searchParams.has("x-amz-checksum-crc32"))
+	} finally {
+		client.destroy()
+	}
+})
+
+test("upload confirmation requires the owner token", () => {
+	assert.equal(confirmUploadSchema.safeParse({ id: "test" }).success, false)
+	assert.equal(confirmUploadSchema.safeParse({ id: "test", ownerToken: "token" }).success, true)
+})
+
+test("shared HTML frames use the streaming endpoint without embedding the source in the page", () => {
+	const markup = renderToStaticMarkup(createElement(HtmlFrame, { src: "/html/test" }))
+	assert.ok(markup.includes('src="/html/test"'))
+	assert.ok(markup.includes('sandbox="allow-scripts"'))
+	assert.ok(!markup.includes("srcDoc="))
+})
+
+test("HTML streams preserve UTF-8 chunks and prepend the policy before the original source", async () => {
+	const content = "<!doctype html><h1>큰 HTML 문서</h1>"
+	const bytes = new TextEncoder().encode(content)
+	const source = new ReadableStream<Uint8Array>({
+		start(controller) {
+			controller.enqueue(bytes.slice(0, 22))
+			controller.enqueue(bytes.slice(22))
+			controller.close()
+		},
+	})
+	const response = new Response(createHtmlPreviewStream(source))
+	assert.equal(await response.text(), buildHtmlPreview(content))
 })

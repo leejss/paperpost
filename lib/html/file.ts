@@ -1,11 +1,11 @@
-import { MAX_FILE_SIZE_BYTES } from "@/lib/utils/constants"
+import { MAX_HTML_FILE_SIZE_BYTES } from "@/lib/utils/constants"
 
 export async function readHtmlFile(file: File): Promise<string> {
 	if (!/\.html?$/i.test(file.name)) {
 		throw new Error(".html 또는 .htm 파일을 선택해주세요.")
 	}
-	if (file.size > MAX_FILE_SIZE_BYTES) {
-		throw new Error("파일 크기는 1MB 이하여야 합니다.")
+	if (file.size > MAX_HTML_FILE_SIZE_BYTES) {
+		throw new Error(`파일 크기는 ${MAX_HTML_FILE_SIZE_BYTES / 1024 / 1024}MB 이하여야 합니다.`)
 	}
 
 	let content: string

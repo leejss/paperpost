@@ -1,4 +1,4 @@
-const PREVIEW_CSP = [
+export const HTML_PREVIEW_CSP = [
 	"default-src 'none'",
 	"script-src 'unsafe-inline' https: blob:",
 	"style-src 'unsafe-inline' https:",
@@ -15,5 +15,5 @@ const PREVIEW_CSP = [
 export function buildHtmlPreview(content: string): string {
 	// Place the policy before any user markup. Later policies cannot relax it.
 	// Keep allow-same-origin OFF on the iframe: user scripts must have an opaque origin.
-	return `<!DOCTYPE html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${PREVIEW_CSP}"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex, nofollow, noarchive">${content}`
+	return `<!DOCTYPE html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${HTML_PREVIEW_CSP}"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex, nofollow, noarchive">${content}`
 }

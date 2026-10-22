@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getDocumentById } from "@/lib/db/queries"
-import { getDocumentContentFromR2 } from "@/lib/r2/operations"
+import { getDocumentStreamFromR2 } from "@/lib/r2/operations"
 import { CACHE_REVALIDATE_SECONDS } from "@/lib/utils/constants"
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -21,7 +21,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 			return new NextResponse("Gone", { status: 410 })
 		}
 
-		const content = await getDocumentContentFromR2(doc.r2Key)
+		const content = await getDocumentStreamFromR2(doc.r2Key)
 
 		return new NextResponse(content, {
 			headers: {

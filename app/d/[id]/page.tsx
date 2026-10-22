@@ -104,10 +104,13 @@ export default async function DocumentPage({ params }: DocumentPageProps) {
 	if (doc.expiresAt && new Date(doc.expiresAt) < new Date()) {
 		return <ExpiredView />
 	}
+	if (getDocumentFormat(doc.r2Key) === "html") {
+		return <DocumentViewer document={doc} />
+	}
 
 	try {
 		const content = await getDocumentContentFromR2Cached(doc.r2Key)
-		const html = getDocumentFormat(doc.r2Key) === "html" ? content : await renderMarkdown(content)
+		const html = await renderMarkdown(content)
 		return <DocumentViewer html={html} document={doc} />
 	} catch (error) {
 		console.error("Failed to render document:", error)

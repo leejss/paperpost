@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { readHtmlFile } from "@/lib/html/file"
+import { MAX_HTML_FILE_SIZE_BYTES } from "@/lib/utils/constants"
 
 interface HtmlEditorProps {
 	value: string
@@ -58,8 +59,9 @@ export function HtmlEditor({ value, onChange }: HtmlEditorProps) {
 					}}
 				/>
 				<p id="html-help" className="mt-2 text-xs leading-5 text-fg-muted">
-					UTF-8 HTML 파일 1개, 최대 1MB. 업로드하면 아래 내용을 대체합니다. CSS·JavaScript·이미지는
-					파일 안에 포함하거나 HTTPS 주소를 사용해주세요. 상대경로 파일은 함께 업로드되지 않습니다.
+					UTF-8 HTML 파일 1개, 최대 {MAX_HTML_FILE_SIZE_BYTES / 1024 / 1024}MB. 업로드하면 아래
+					내용을 대체합니다. CSS·JavaScript·이미지는 파일 안에 포함하거나 HTTPS 주소를 사용해주세요.
+					상대경로 파일은 함께 업로드되지 않습니다.
 				</p>
 				<output id="html-file-status" className="mt-2 block text-sm text-error-fg">
 					{isReading ? "파일을 읽는 중..." : error}
@@ -75,6 +77,7 @@ export function HtmlEditor({ value, onChange }: HtmlEditorProps) {
 					onChange={(event) => onChange(event.target.value)}
 					disabled={isReading}
 					spellCheck={false}
+					wrap="off"
 					autoCapitalize="off"
 					autoCorrect="off"
 					placeholder={

@@ -2,7 +2,7 @@
 
 import { FileText } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { HtmlEditor } from "@/components/editor/html-editor"
 import { MarkdownEditor } from "@/components/editor/markdown-editor"
 import { HtmlPreview } from "@/components/preview/html-preview"
@@ -10,7 +10,8 @@ import { MarkdownPreview } from "@/components/preview/markdown-preview"
 import { ShareDialog } from "@/components/share/share-dialog"
 import { Button } from "@/components/ui/button"
 import type { DocumentFormat } from "@/lib/documents/format"
-import { type ExpiryOption, MAX_FILE_SIZE_BYTES } from "@/lib/utils/constants"
+import { uploadHtmlDocument } from "@/lib/html/upload"
+import { type ExpiryOption, getMaxDocumentSizeBytes } from "@/lib/utils/constants"
 import type { CreateDocResult } from "@/types/document"
 import { createAndUploadDocAction } from "./actions"
 
@@ -29,8 +30,9 @@ export default function EditorPage() {
 	const [isSignedIn, setIsSignedIn] = useState(false)
 	const [isAuthLoaded, setIsAuthLoaded] = useState(false)
 
-	const contentSizeBytes = new TextEncoder().encode(content).length
-	const isOverLimit = contentSizeBytes > MAX_FILE_SIZE_BYTES
+	const contentSizeBytes = useMemo(() => new TextEncoder().encode(content).length, [content])
+	const maxSizeBytes = getMaxDocumentSizeBytes(format)
+	const isOverLimit = contentSizeBytes > maxSizeBytes
 	const isEmpty = content.trim().length === 0
 
 	const handleShare = async (options: {
@@ -41,6 +43,11 @@ export default function EditorPage() {
 		setError(null)
 
 		try {
+			if (isEmpty || isOverLimit) throw new Error("내용과 파일 크기를 확인해주세요.")
+			if (format === "html") {
+				setShareResult(await uploadHtmlDocument(content, options))
+				return
+			}
 			const result = await createAndUploadDocAction({
 				content,
 				format,
@@ -154,22 +161,35 @@ export default function EditorPage() {
 			</header>
 
 			<main className="w-full max-w-3xl flex-1 px-4 py-6 md:px-6 md:py-10">
-				<fieldset
-					className="mb-6 flex items-center gap-1 rounded-lg border border-border-default bg-bg-default p-1"
-					aria-label="문서 형식"
-				>
-					{(["markdown", "html"] as const).map((option) => (
-						<Button
-							key={option}
-							variant={format === option ? "secondary" : "ghost"}
-							aria-pressed={format === option}
-							onClick={() => setFormat(option)}
-							className="flex-1"
+				<div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+					<span className="text-sm text-fg-muted">문서 형식</span>
+					<div className="flex items-center gap-3 text-sm">
+						<span
+							className={format === "markdown" ? "font-medium text-fg-default" : "text-fg-muted"}
 						>
-							{option === "html" ? "HTML" : "Markdown"}
-						</Button>
-					))}
-				</fieldset>
+							Markdown
+						</span>
+						<button
+							type="button"
+							role="switch"
+							aria-label="HTML 형식"
+							aria-checked={format === "html"}
+							onClick={() => setFormat(format === "html" ? "markdown" : "html")}
+							className="inline-flex h-11 w-12 shrink-0 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+						>
+							<span
+								className={`flex h-7 w-12 items-center rounded-full p-1 transition-colors ${format === "html" ? "bg-primary" : "bg-bg-emphasis"}`}
+							>
+								<span
+									className={`h-5 w-5 rounded-full bg-white shadow-sm transition-transform motion-reduce:transition-none ${format === "html" ? "translate-x-5" : "translate-x-0"}`}
+								/>
+							</span>
+						</button>
+						<span className={format === "html" ? "font-medium text-fg-default" : "text-fg-muted"}>
+							HTML
+						</span>
+					</div>
+				</div>
 				<div>
 					{format === "html" ? (
 						<HtmlEditor value={content} onChange={setContent} />
@@ -182,9 +202,11 @@ export default function EditorPage() {
 				<div className="fixed bottom-8 left-1/2 z-40 -translate-x-1/2 transform transition-all duration-500 ease-out">
 					<div className="flex items-center gap-3 rounded-full border border-border-default/40 bg-bg-default/70 p-1.5 pl-5 pr-1.5 backdrop-blur-2xl transition-all duration-300 hover:bg-bg-default/90 ring-1 ring-black/5 dark:ring-white/10">
 						<div className="text-xs font-medium text-fg-muted tabular-nums tracking-wide">
-							{(contentSizeBytes / 1024).toFixed(1)}{" "}
-							<span className="text-fg-subtle text-[10px] uppercase">KB</span>
-							{isOverLimit && <span className="ml-2 font-semibold text-error-fg">1MB 초과</span>}
+							{contentSizeBytes >= 1024 * 1024
+								? `${(contentSizeBytes / 1024 / 1024).toFixed(1)} MB`
+								: `${(contentSizeBytes / 1024).toFixed(1)} KB`}
+							<span className="ml-1 text-fg-subtle">/ {maxSizeBytes / 1024 / 1024} MB</span>
+							{isOverLimit && <span className="ml-2 font-semibold text-error-fg">용량 초과</span>}
 						</div>
 						<div className="h-3 w-px bg-border-default/60" />
 						<Button

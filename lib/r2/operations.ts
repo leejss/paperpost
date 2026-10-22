@@ -23,16 +23,26 @@ export async function getDocumentContentFromR2(key: string): Promise<string> {
 	return body
 }
 
-export async function headObject(key: string): Promise<boolean> {
+export async function getDocumentStreamFromR2(key: string): Promise<ReadableStream<Uint8Array>> {
+	const response = await getR2Client().send(
+		new GetObjectCommand({ Bucket: getR2Bucket(), Key: key })
+	)
+	if (!response.Body) throw new Error("Failed to fetch document from R2")
+	return response.Body.transformToWebStream()
+}
+
+export async function headObject(
+	key: string
+): Promise<{ sizeBytes: number | undefined; contentType: string | undefined } | null> {
 	try {
 		const command = new HeadObjectCommand({
 			Bucket: getR2Bucket(),
 			Key: key,
 		})
-		await getR2Client().send(command)
-		return true
+		const response = await getR2Client().send(command)
+		return { sizeBytes: response.ContentLength, contentType: response.ContentType }
 	} catch {
-		return false
+		return null
 	}
 }
 

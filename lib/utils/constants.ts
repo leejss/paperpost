@@ -1,4 +1,11 @@
-export const MAX_FILE_SIZE_BYTES = 1024 * 1024 // 1MB
+import type { DocumentFormat } from "@/lib/documents/format"
+
+export const MAX_FILE_SIZE_BYTES = 1024 * 1024 // Markdown: 1MB
+export const MAX_HTML_FILE_SIZE_BYTES = 20 * 1024 * 1024 // HTML: 20MB
+
+export function getMaxDocumentSizeBytes(format: DocumentFormat): number {
+	return format === "html" ? MAX_HTML_FILE_SIZE_BYTES : MAX_FILE_SIZE_BYTES
+}
 
 export const EXPIRY_OPTIONS = {
 	"1d": { label: "1일", days: 1 },

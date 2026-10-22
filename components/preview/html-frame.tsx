@@ -1,10 +1,13 @@
 import { buildHtmlPreview } from "@/lib/html/preview"
 
-export function HtmlFrame({ content }: { content: string }) {
+type HtmlFrameProps = { content: string; src?: never } | { src: string; content?: never }
+
+export function HtmlFrame({ content, src }: HtmlFrameProps) {
 	return (
 		<iframe
 			title="HTML 문서"
-			srcDoc={buildHtmlPreview(content)}
+			src={src}
+			srcDoc={content === undefined ? undefined : buildHtmlPreview(content)}
 			sandbox="allow-scripts"
 			referrerPolicy="no-referrer"
 			allow="camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'"
